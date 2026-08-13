@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مطاعم ذوق الرواد - النظام الشامل والآمن (المزامنة الفورية السحابية)</title>
+    <title>مطاعم ذوق الرواد - النظام الموحد والمزامن عبر الأجهزة</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
@@ -29,64 +29,60 @@
         }
 
         * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; transition: background 0.3s, color 0.3s; }
-        body { background-color: var(--bg-color); color: var(--text-color); margin: 0; padding: 20px; }
+        body { background-color: var(--bg-color); color: var(--text-color); margin: 0; padding: 15px; }
 
         .auth-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(15, 23, 42, 0.9);
+            background: rgba(15, 23, 42, 0.95);
             display: flex; justify-content: center; align-items: center; z-index: 9999;
         }
         .auth-box {
-            background: var(--card-bg); padding: 30px; border-radius: 12px; width: 100%; max-width: 400px;
+            background: var(--card-bg); padding: 25px; border-radius: 12px; width: 90%; max-width: 400px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.3); border: 1px solid var(--border-color); text-align: center;
         }
 
         .top-bar {
             display: flex; justify-content: space-between; align-items: center; background: var(--card-bg);
-            padding: 15px 25px; border-radius: 10px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); border: 1px solid var(--border-color);
+            padding: 12px 20px; border-radius: 10px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); border: 1px solid var(--border-color); flex-wrap: wrap; gap: 10px;
         }
         .header-title {
-            text-align: center; background: var(--header-bg); color: #fff; padding: 20px; border-radius: 10px; margin-bottom: 20px;
+            text-align: center; background: var(--header-bg); color: #fff; padding: 15px; border-radius: 10px; margin-bottom: 15px;
         }
-        .nav-tabs { display: flex; justify-content: center; gap: 8px; margin-bottom: 25px; flex-wrap: wrap; }
+        .nav-tabs { display: flex; justify-content: center; gap: 6px; margin-bottom: 20px; flex-wrap: wrap; }
         .tab-btn {
             background: var(--card-bg); color: var(--text-color); border: 1px solid var(--border-color);
-            padding: 10px 15px; font-size: 14px; font-weight: bold; border-radius: 6px; cursor: pointer;
+            padding: 8px 12px; font-size: 13px; font-weight: bold; border-radius: 6px; cursor: pointer;
         }
         .tab-btn.active, .tab-btn:hover { background: var(--primary-btn); color: #fff; border-color: var(--primary-btn); }
-        .section-content { display: none; background: var(--card-bg); padding: 25px; border-radius: 10px; border: 1px solid var(--border-color); margin-bottom: 20px; }
+        .section-content { display: none; background: var(--card-bg); padding: 20px; border-radius: 10px; border: 1px solid var(--border-color); margin-bottom: 15px; }
         .section-content.active { display: block; }
-        .form-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 14px; }
-        input, select { width: 100%; padding: 10px; border: 1px solid var(--border-color); background: var(--card-bg); color: var(--text-color); border-radius: 6px; font-size: 15px; }
-        .btn { background-color: var(--primary-btn); color: white; border: none; padding: 10px 20px; font-size: 15px; font-weight: bold; border-radius: 6px; cursor: pointer; }
+        .form-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 15px; }
+        label { display: block; margin-bottom: 4px; font-weight: bold; font-size: 13px; }
+        input, select { width: 100%; padding: 8px; border: 1px solid var(--border-color); background: var(--card-bg); color: var(--text-color); border-radius: 6px; font-size: 14px; }
+        .btn { background-color: var(--primary-btn); color: white; border: none; padding: 8px 16px; font-size: 14px; font-weight: bold; border-radius: 6px; cursor: pointer; }
         .btn:hover { background-color: var(--primary-hover); }
-        .btn-danger { background-color: #ef4444; padding: 5px 10px; font-size: 13px; color: white; }
-        .btn-warning { background-color: #d97706; padding: 5px 10px; font-size: 13px; color: white; }
+        .btn-danger { background-color: #ef4444; padding: 4px 8px; font-size: 12px; color: white; }
+        .btn-warning { background-color: #d97706; padding: 4px 8px; font-size: 12px; color: white; }
         .btn-print { background-color: #059669; color: white; }
-        table { width: 100%; margin-top: 20px; border-collapse: collapse; }
-        th, td { padding: 12px; text-align: right; border-bottom: 1px solid var(--border-color); font-size: 14px; }
+        
+        .table-container { width: 100%; overflow-x: auto; margin-top: 15px; }
+        table { width: 100% !important; border-collapse: collapse; display: table !important; }
+        th, td { padding: 12px; text-align: right; border-bottom: 1px solid var(--border-color); font-size: 14px; white-space: nowrap; }
         th { background-color: var(--table-head); }
-        .summary-box { margin-top: 15px; padding: 15px; background: var(--bg-color); border-radius: 6px; border: 1px solid var(--border-color); font-weight: bold; text-align: center; }
-        .chart-container { position: relative; margin: auto; height: 350px; max-width: 700px; margin-top: 25px; }
-        .badge { padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: bold; display: inline-block; }
+        
+        .summary-box { margin-top: 15px; padding: 12px; background: var(--bg-color); border-radius: 6px; border: 1px solid var(--border-color); font-weight: bold; text-align: center; }
+        .chart-container { position: relative; margin: auto; height: 300px; max-width: 650px; margin-top: 20px; }
+        .badge { padding: 3px 8px; border-radius: 6px; font-size: 11px; font-weight: bold; display: inline-block; }
         .badge-boss { background: #7c3aed; color: white; }
-        .badge-vice { background: #9333ea; color: white; }
+        .badge-vice_boss { background: #9333ea; color: white; }
         .badge-manager { background: #2563eb; color: white; }
         .badge-watcher { background: #475569; color: white; }
-        
-        .user-management-card {
-            background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 12px 15px; margin-bottom: 10px;
-            display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
-        }
-        .report-card { background: var(--bg-color); border: 1px solid var(--border-color); padding: 20px; border-radius: 8px; margin-bottom: 15px; }
+        .badge-pending { background: #d97706; color: white; }
+        .badge-approved { background: #059669; color: white; }
 
-        .btn-sm-action {
-            padding: 4px 10px !important;
-            font-size: 12px !important;
-            border-radius: 4px !important;
-            font-weight: normal !important;
+        .user-management-card {
+            background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 10px 12px; margin-bottom: 8px;
+            display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;
         }
 
         .sync-status {
@@ -95,12 +91,15 @@
         .sync-dot { width: 8px; height: 8px; background-color: #059669; border-radius: 50%; animation: pulse 1s infinite; }
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.2; } 100% { opacity: 1; } }
 
+        .report-section-card {
+            background: var(--bg-color); padding: 15px; border-radius: 8px; margin-bottom: 15px; border: 1px solid var(--border-color);
+        }
+
         @media print {
             body { background: white; color: black; padding: 0; }
             .top-bar, .nav-tabs, .auth-overlay, .btn, .admin-action-col, .form-row, input, select { display: none !important; }
             .section-content { border: none; box-shadow: none; padding: 0; display: block !important; }
-            .header-title { background: none; color: black; border-bottom: 2px solid #000; padding: 10px 0; }
-            table { border: 1px solid #000; }
+            table { border: 1px solid #000; display: table !important; }
             th, td { border: 1px solid #000; color: black; }
         }
     </style>
@@ -111,17 +110,17 @@
     <div id="loginOverlay" class="auth-overlay">
         <div class="auth-box">
             <h2>🔐 تسجيل الدخول الآمن</h2>
-            <p style="font-size: 13px; opacity: 0.8; margin-bottom: 15px;">اختر الحساب للمتابعة</p>
-            <div style="margin-bottom: 15px; text-align: right;">
-                <label>اختر المستخدم:</label>
-                <select id="loginUserSelect" onchange="checkLoginUserType()" style="padding: 10px;"></select>
+            <p style="font-size: 12px; opacity: 0.8; margin-bottom: 12px;">اختر الحساب للمتابعة</p>
+            <div style="margin-bottom: 12px; text-align: right;">
+                <label>المستخدم:</label>
+                <select id="loginUserSelect" onchange="checkLoginUserType()"></select>
             </div>
-            <div id="passwordFieldContainer" style="margin-bottom: 20px; text-align: right;">
+            <div id="passwordFieldContainer" style="margin-bottom: 15px; text-align: right;">
                 <label>كلمة المرور:</label>
                 <input type="password" id="loginPasswordInput" placeholder="أدخل كلمة المرور...">
             </div>
             <button class="btn" style="width: 100%; margin-bottom: 10px;" onclick="performLogin()">دخول للنظام</button>
-            <div style="display: flex; justify-content: space-between; margin-top: 10px; font-size: 13px;">
+            <div style="display: flex; justify-content: space-between; margin-top: 8px; font-size: 12px;">
                 <a href="#" onclick="switchAuthScreen('forgot')" style="color: var(--primary-btn);">نسيت كلمة المرور؟</a>
                 <a href="#" onclick="switchAuthScreen('register')" style="color: #7c3aed; font-weight: bold;">طلب حساب جديد</a>
             </div>
@@ -132,16 +131,16 @@
     <div id="registerOverlay" class="auth-overlay" style="display: none;">
         <div class="auth-box">
             <h2>📝 طلب حساب جديد</h2>
-            <p style="font-size: 13px; opacity: 0.8; margin-bottom: 15px;">يتم إرسال الطلب للريس فقط للموافقة والتفعيل</p>
-            <div style="margin-bottom: 15px; text-align: right;">
+            <p style="font-size: 12px; opacity: 0.8; margin-bottom: 12px;">يتم إرسال الطلب للريس فقط للموافقة والتفعيل</p>
+            <div style="margin-bottom: 10px; text-align: right;">
                 <label>اسم المستخدم الجديد:</label>
                 <input type="text" id="regNameInput" placeholder="اكتب اسم المستخدم...">
             </div>
-            <div style="margin-bottom: 15px; text-align: right;">
+            <div style="margin-bottom: 10px; text-align: right;">
                 <label>كلمة المرور:</label>
                 <input type="password" id="regPassInput" placeholder="كلمة المرور...">
             </div>
-            <div style="margin-bottom: 20px; text-align: right;">
+            <div style="margin-bottom: 15px; text-align: right;">
                 <label>الصلاحية المطلوبة:</label>
                 <select id="regRoleSelect">
                     <option value="vice_boss">نائب الريس (Vice Boss)</option>
@@ -149,80 +148,86 @@
                     <option value="watcher">مراقب</option>
                 </select>
             </div>
-            <button class="btn" style="width: 100%; margin-bottom: 10px;" onclick="submitNewAccountRequest()">إرسال الطلب للريس</button>
+            <button class="btn" style="width: 100%; margin-bottom: 8px;" onclick="submitNewAccountRequest()">إرسال الطلب للريس</button>
             <button class="btn btn-danger" style="width: 100%; background: #475569;" onclick="switchAuthScreen('login')">العودة لتسجيل الدخول</button>
         </div>
     </div>
 
-    <!-- 3. نسيت كلمة المرور (قائمة اختيارية) -->
+    <!-- 3. نسيت كلمة المرور -->
     <div id="forgotOverlay" class="auth-overlay" style="display: none;">
         <div class="auth-box">
             <h2>🔑 طلب استعادة كلمة المرور</h2>
-            <p style="font-size: 13px; opacity: 0.8; margin-bottom: 15px;">اختر حسابك من القائمة لإرسال طلب الاستعادة للإدارة</p>
-            <div style="margin-bottom: 20px; text-align: right;">
+            <div style="margin-bottom: 15px; text-align: right;">
                 <label>اختر اسم الحساب:</label>
-                <select id="forgotNameSelect" style="padding: 10px;"></select>
+                <select id="forgotNameSelect"></select>
             </div>
-            <button class="btn" style="width: 100%; margin-bottom: 10px;" onclick="submitPasswordResetRequest()">إرسال طلب الاستعادة</button>
+            <button class="btn" style="width: 100%; margin-bottom: 8px;" onclick="submitPasswordResetRequest()">إرسال طلب الاستعادة</button>
             <button class="btn" style="width: 100%; background: #475569;" onclick="switchAuthScreen('login')">العودة لتسجيل الدخول</button>
         </div>
     </div>
 
-    <!-- 4. صفحة تعيين كلمة المرور الجديدة للموظف بعد الموافقة -->
+    <!-- 4. صفحة تعيين كلمة المرور الجديدة -->
     <div id="resetPasswordPageOverlay" class="auth-overlay" style="display: none;">
         <div class="auth-box">
-            <h2>🔐 صفحة تعيين كلمة المرور الجديدة</h2>
-            <p style="font-size: 13px; opacity: 0.8; margin-bottom: 15px;" id="resetPageInfoText">تمت الموافقة على طلبك. أدخل كلمة المرور الجديدة الآن.</p>
-            <div style="margin-bottom: 20px; text-align: right;">
+            <h2>🔐 تعيين كلمة المرور الجديدة</h2>
+            <div style="margin-bottom: 15px; text-align: right;">
                 <label>كلمة المرور الجديدة:</label>
                 <input type="password" id="newPasswordInput" placeholder="أدخل كلمة المرور الجديدة...">
             </div>
-            <button class="btn" style="width: 100%; margin-bottom: 10px; background: #059669;" onclick="confirmNewPasswordSetting()">حفظ كلمة المرور والدخول</button>
+            <button class="btn" style="width: 100%; margin-bottom: 8px; background: #059669;" onclick="confirmNewPasswordSetting()">حفظ و الدخول</button>
         </div>
     </div>
 
-    <!-- شريط الحساب العلوي -->
+    <!-- الشريط العلوي -->
     <div class="top-bar">
-        <div style="display: flex; align-items: center; gap: 15px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
             <div>👤 المستخدم: <strong id="activeUserDisplay">طارق</strong> | الصلاحية: <span id="activeUserRoleBadge" class="badge badge-boss">الريس (Boss)</span></div>
             <div class="sync-status">
                 <div class="sync-dot"></div>
-                <span id="syncStatusText">متصل بالسحابة (مزامنة فورية 1 ثانية)</span>
+                <span id="syncStatusText">ملازمة السحابة (شغالة)</span>
             </div>
         </div>
-        <div style="display: flex; gap: 10px; align-items: center;">
-            <button class="btn" onclick="manualCloudSync()" style="padding: 5px 12px; font-size: 13px; background: #2563eb;">🔄 تحديث فوري</button>
-            <button class="btn btn-print" onclick="window.print()" style="padding: 5px 12px; font-size: 13px;">🖨️ طباعة</button>
-            <button class="btn btn-danger" onclick="logoutSystem()" style="padding: 5px 12px; font-size: 13px;">خروج</button>
+        <div style="display: flex; gap: 8px; align-items: center;">
+            <button class="btn" onclick="fetchFromCloud()" style="padding: 5px 10px; font-size: 12px; background: #059669;">☁️ تحديث البيانات من الجوال/الأجهزة</button>
+            <button class="btn btn-print" onclick="window.print()" style="padding: 5px 10px; font-size: 12px;">🖨️ طباعة</button>
+            <button class="btn btn-danger" onclick="logoutSystem()" style="padding: 5px 10px; font-size: 12px;">خروج</button>
         </div>
     </div>
 
     <div class="header-title">
-        <h1>🍽️ إدارة مطاعم ذوق الرواد - النظام الشامل والآمن</h1>
-        <p style="margin: 5px 0 0 0; opacity: 0.8; font-size: 14px;">مزامنة سحابية فائقة السرعة ولحظية بين جميع الأجهزة</p>
+        <h1>🍽️ مطاعم ذوق الرواد - النظام الموحد بين كل الأجهزة</h1>
     </div>
 
     <div class="nav-tabs">
         <button class="tab-btn active" onclick="switchTab('employees')">شؤون الموظفين</button>
-        <button class="tab-btn" onclick="switchTab('deductions')">الخصومات والبحث</button>
-        <button class="tab-btn" onclick="switchTab('sales')">مبيعات الكشكات والورديات</button>
-        <button class="tab-btn" onclick="switchTab('analytics')">📈 التحليل الرسومي</button>
+        <button class="tab-btn" onclick="switchTab('deductions')">الخصومات</button>
+        <button class="tab-btn" onclick="switchTab('sales')">المبيعات والورديات</button>
+        <button class="tab-btn" onclick="switchTab('analytics')">📈 التحليل</button>
         <button class="tab-btn" onclick="switchTab('warehouse')">📦 المستودع الذكي</button>
-        <button class="tab-btn" onclick="switchTab('reports')">📊 التقارير المالية والطباعة</button>
+        <button class="tab-btn" onclick="switchTab('reports')">📊 التقارير تفصيلية</button>
         <button class="tab-btn" onclick="switchTab('logs')">📋 سجل العمليات</button>
         <button class="tab-btn" onclick="switchTab('users')">👥 إدارة الحسابات</button>
-        <button class="tab-btn" onclick="switchTab('bossPanel')" id="bossTabBtn" style="background: #7c3aed; color:white;">👑 لوحة القيادة والطلبات (للريس ونائب الريس)</button>
-        <button class="tab-btn" onclick="switchTab('settings')">الإعدادات</button>
+        <button class="tab-btn" onclick="switchTab('bossPanel')" id="bossTabBtn" style="background: #7c3aed; color:white;">👑 لوحة القيادة والطلبات</button>
+        <button class="tab-btn" onclick="switchTab('settings')">الإعدادات والسحابة</button>
     </div>
 
     <!-- 1. الموظفين -->
     <div id="employees" class="section-content active">
-        <h2>👥 إدارة الموظفين والرواتب</h2>
-        <div style="margin-bottom: 20px;">
+        <h2>👥 إدارة الموظفين والرواتب حسب الفرع</h2>
+        <input type="hidden" id="editEmpId">
+        <div style="margin-bottom: 15px;">
             <input type="text" id="searchEmpInput" placeholder="🔍 ابحث عن موظف..." onkeyup="renderEmployees(); renderMonthlyPayroll();">
         </div>
-        <div class="form-row" id="empFormContainer">
-            <div><label>اسم الموظف (رباعي):</label><input type="text" id="empName" placeholder="مثال: محمد أحمد علي خالد"></div>
+        <div class="form-row">
+            <div><label>اسم الموظف (رباعي):</label><input type="text" id="empName" placeholder="مثال: محمد أحمد علي"></div>
+            <div>
+                <label>الفرع:</label>
+                <select id="empBranch">
+                    <option value="الفرع الأول">الفرع الأول</option>
+                    <option value="الفرع الثاني">الفرع الثاني</option>
+                    <option value="الفرع الثالث">الفرع الثالث</option>
+                </select>
+            </div>
             <div>
                 <label>المسمى الوظيفي:</label>
                 <select id="empRole">
@@ -236,60 +241,73 @@
             <div><label>الراتب الأساسي:</label><input type="number" id="empSalary" placeholder="الراتب"></div>
         </div>
         <button class="btn" id="saveEmpBtn" onclick="saveEmployee()">حفظ موظف جديد</button>
-        <table id="empTable">
-            <thead>
-                <tr>
-                    <th>اسم الموظف الرباعي</th>
-                    <th>المسمى الوظيفي</th>
-                    <th>الراتب الأساسي</th>
-                    <th class="admin-action-col">الإجراءات</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
+        <button class="btn btn-danger" id="cancelEmpEditBtn" style="display:none;" onclick="cancelEmployeeEdit()">إلغاء التعديل</button>
+        
+        <div class="table-container">
+            <table id="empTable">
+                <thead>
+                    <tr>
+                        <th>اسم الموظف الرباعي</th>
+                        <th>الفرع</th>
+                        <th>المسمى الوظيفي</th>
+                        <th>الراتب الأساسي</th>
+                        <th class="admin-action-col">الإجراءات</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
         <div class="summary-box" id="empSummary">إجمالي الرواتب الأساسية: 0 ريال</div>
 
-        <h3 style="margin-top: 35px; border-top: 2px solid var(--border-color); padding-top: 15px;">💰 صافي الرواتب المستحقة</h3>
-        <table id="monthlyPayrollTable">
-            <thead>
-                <tr>
-                    <th>اسم الموظف</th>
-                    <th>المسمى</th>
-                    <th>الراتب الأساسي</th>
-                    <th>الخصومات</th>
-                    <th>صافي الراتب المستحق</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
+        <h3 style="margin-top: 25px;">💰 صافي الرواتب المستحقة (المخصوم منها المقبول من القيادة)</h3>
+        <div class="table-container">
+            <table id="monthlyPayrollTable">
+                <thead>
+                    <tr>
+                        <th>اسم الموظف</th>
+                        <th>الفرع</th>
+                        <th>المسمى</th>
+                        <th>الراتب الأساسي</th>
+                        <th>الخصومات المعتمدة</th>
+                        <th>صافي الراتب المستحق</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
         <div class="summary-box" id="totalNetPayrollBox" style="background: #2563eb; color: white;">إجمالي الرواتب النهائية: 0 ريال</div>
     </div>
 
     <!-- 2. الخصومات -->
     <div id="deductions" class="section-content">
         <h2>⚠️ قائمة ومتابعة خصومات الرواتب</h2>
-        <div style="margin-bottom: 20px;">
-            <input type="text" id="searchDeductGlobal" placeholder="🔍 ابحث عن أي موظف لمعرفة حالته..." onkeyup="renderDeductions()">
+        <p style="font-size: 12px; color: #d97706;">📌 الخصم المسجل يكون (قيد الانتظار) ولن يقتطع من الراتب إلا بموافقة الريس أو نائبه.</p>
+        <div style="margin-bottom: 15px;">
+            <input type="text" id="searchDeductGlobal" placeholder="🔍 ابحث..." onkeyup="renderDeductions()">
         </div>
         <div class="form-row">
             <div><label>اختر الموظف:</label><select id="deductEmpSelect"></select></div>
             <div><label>قيمة الخصم (ريال):</label><input type="number" id="deductAmount" placeholder="المبلغ"></div>
-            <div><label>سبب الخصم:</label><input type="text" id="deductReason" placeholder="تأخير، خطأ.."></div>
+            <div><label>سبب الخصم:</label><input type="text" id="deductReason" placeholder="السبب.."></div>
         </div>
-        <button class="btn" onclick="saveDeduction()">تسجيل الخصم</button>
-        <table id="deductTable">
-            <thead>
-                <tr>
-                    <th>اسم الموظف</th>
-                    <th>المسمى الوظيفي</th>
-                    <th>إجمالي الخصومات</th>
-                    <th>التفاصيل والسبب</th>
-                    <th class="admin-action-col">الإجراء</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
-        <div class="summary-box" id="deductSummary">إجمالي الخصومات المعروضة: 0 ريال</div>
+        <button class="btn" onclick="saveDeduction()">تسجيل الخصم (للموافقة)</button>
+        <div class="table-container">
+            <table id="deductTable">
+                <thead>
+                    <tr>
+                        <th>اسم الموظف</th>
+                        <th>الفرع</th>
+                        <th>المسمى الوظيفي</th>
+                        <th>مبلغ الخصم</th>
+                        <th>التفاصيل والسبب</th>
+                        <th>الحالة والاعتماد</th>
+                        <th class="admin-action-col">الإجراء</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        <div class="summary-box" id="deductSummary">إجمالي الخصومات المعتمدة: 0 ريال</div>
     </div>
 
     <!-- 3. المبيعات -->
@@ -322,31 +340,30 @@
                     <option value="وردية ليلية">⭐ وردية ليلية</option>
                 </select>
             </div>
-            <div>
-                <label>المسؤول عن الوردية:</label>
-                <select id="saleShiftResponsible"></select>
-            </div>
+            <div><label>المسؤول عن الوردية:</label><select id="saleShiftResponsible"></select></div>
             <div><label>عدد الطلبات:</label><input type="number" id="saleQty" placeholder="العدد"></div>
             <div><label>الإيراد (ريال):</label><input type="number" id="saleAmount" placeholder="المبلغ"></div>
             <div><label>التاريخ:</label><input type="date" id="saleDate"></div>
         </div>
         <button class="btn" onclick="saveSale()">تسجيل مبيعات الوردية</button>
-        <table id="salesTable">
-            <thead>
-                <tr>
-                    <th>الفرع</th>
-                    <th>القسم</th>
-                    <th>الوردية</th>
-                    <th>المسؤول</th>
-                    <th>عدد الطلبات</th>
-                    <th>الإيراد الكلي</th>
-                    <th>بواسطة</th>
-                    <th>التاريخ</th>
-                    <th class="admin-action-col">الإجراءات</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
+        <div class="table-container">
+            <table id="salesTable">
+                <thead>
+                    <tr>
+                        <th>الفرع</th>
+                        <th>القسم</th>
+                        <th>الوردية</th>
+                        <th>المسؤول</th>
+                        <th>الطلبات</th>
+                        <th>الإيراد</th>
+                        <th>بواسطة</th>
+                        <th>التاريخ</th>
+                        <th class="admin-action-col">الإجراء</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
         <div class="summary-box" id="salesSummary">إجمالي الإيرادات: 0 ريال</div>
     </div>
 
@@ -358,20 +375,21 @@
 
     <!-- 5. المستودع الذكي -->
     <div id="warehouse" class="section-content">
-        <h2>📦 المستودع المرن والتنبيهات الذكية للنواقص</h2>
-        <div id="bossLimitSection" style="background: rgba(124, 58, 237, 0.1); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #7c3aed; display:none;">
-            <h3>👑 لوحة القيادة: تحديد حد أقصى وحد أدنى آمن للصنف</h3>
+        <h2>📦 المستودع الذكي والتنبيهات</h2>
+        
+        <div id="bossLimitSection" style="background: rgba(124, 58, 237, 0.08); padding: 12px; border-radius: 8px; margin-bottom: 15px; border: 1px solid #7c3aed; display:none;">
+            <h3>👑 تحديد الحدود الدنيا والأقسى للصنف (متاحة للريس ونائب الريس)</h3>
             <div class="form-row">
                 <div><label>اسم الصنف:</label><input type="text" id="limitItemName" placeholder="مثال: دجاج"></div>
                 <div><label>الحد الأقصى:</label><input type="number" id="limitMaxQty" placeholder="الحد الأقصى"></div>
                 <div><label>الحد الأدنى الآمن:</label><input type="number" id="limitMinSafe" placeholder="الحد الأدنى"></div>
             </div>
-            <button class="btn" style="background:#7c3aed;" onclick="saveBossLimit()">حفظ القيود</button>
+            <button class="btn" style="background:#7c3aed;" onclick="saveBossLimit()">حفظ قيود الحد</button>
         </div>
 
         <div class="form-row">
             <div>
-                <label>اختر الفرع:</label>
+                <label>الفرع:</label>
                 <select id="whBranch">
                     <option value="الفرع الأول">الفرع الأول</option>
                     <option value="الفرع الثاني">الفرع الثاني</option>
@@ -379,19 +397,17 @@
                 </select>
             </div>
             <div>
-                <label>اسم الصنف:</label>
+                <label>الصنف:</label>
                 <div style="display: flex; gap: 5px;">
-                    <select id="whItemSelect" onchange="checkCustomItemInput()" style="flex: 2;">
+                    <select id="whItemSelect" onchange="checkCustomItemInput()">
                         <option value="دجاج">دجاج</option>
                         <option value="بطاطس">بطاطس</option>
                         <option value="زيت فرايز">زيت فرايز</option>
                         <option value="بهارات شاورما">بهارات شاورما</option>
                         <option value="جبن موزاريلا">جبن موزاريلا</option>
-                        <option value="خبز صامولي/إيطالي">خبز صامولي/إيطالي</option>
-                        <option value="لحم برجر">لحم برجر</option>
                         <option value="custom">✍️ [كتابة صنف...]</option>
                     </select>
-                    <input type="text" id="whCustomInput" placeholder="اكتب..." style="display:none; flex: 2;">
+                    <input type="text" id="whCustomInput" placeholder="اكتب..." style="display:none;">
                 </div>
             </div>
             <div>
@@ -414,48 +430,40 @@
             <div><label>التاريخ:</label><input type="date" id="whDate"></div>
         </div>
 
-        <div id="receiveExtraFields" class="form-row" style="background: rgba(37, 99, 235, 0.05); padding: 15px; border-radius: 8px; border: 1px dashed var(--primary-btn); margin-bottom: 15px;">
-            <div><label style="color: var(--primary-btn);">إجمالي القيمة:</label><input type="number" id="whTotalValue" placeholder="القيمة..."></div>
-            <div><label style="color: var(--primary-btn);">المبلغ المدفوع:</label><input type="number" id="whPaidAmount" placeholder="المدفوع..."></div>
+        <div id="receiveExtraFields" class="form-row" style="background: rgba(37, 99, 235, 0.05); padding: 10px; border-radius: 8px; margin-bottom: 12px;">
+            <div><label>إجمالي القيمة:</label><input type="number" id="whTotalValue" placeholder="القيمة..."></div>
+            <div><label>المبلغ المدفوع:</label><input type="number" id="whPaidAmount" placeholder="المدفوع..."></div>
         </div>
 
         <button class="btn" onclick="saveWarehouseItem()">تسجيل حركة المستودع</button>
-        
-        <div style="margin-top: 20px; display: flex; gap: 15px; align-items: center;">
-            <label style="margin:0;">تصفية حسب الفرع:</label>
-            <select id="whFilterBranch" onchange="renderWarehouse()" style="max-width: 200px;">
-                <option value="all">🌐 جميع الفروع</option>
-                <option value="الفرع الأول">الفرع الأول</option>
-                <option value="الفرع الثاني">الفرع الثاني</option>
-                <option value="الفرع الثالث">الفرع الثالث</option>
-            </select>
-        </div>
 
-        <table id="warehouseTable">
-            <thead>
-                <tr>
-                    <th>الفرع</th>
-                    <th>الصنف والرصيد</th>
-                    <th>الحالة</th>
-                    <th>الحركة</th>
-                    <th>الكمية</th>
-                    <th>الوحدة</th>
-                    <th>التفاصيل المالية</th>
-                    <th>التاريخ</th>
-                    <th>بواسطة</th>
-                    <th class="admin-action-col">الإجراء</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
+        <div class="table-container">
+            <table id="warehouseTable">
+                <thead>
+                    <tr>
+                        <th>الفرع</th>
+                        <th>الصنف والرصيد</th>
+                        <th>الحالة</th>
+                        <th>الحركة</th>
+                        <th>الكمية</th>
+                        <th>الوحدة</th>
+                        <th>التفاصيل المالية</th>
+                        <th>التاريخ</th>
+                        <th>بواسطة</th>
+                        <th class="admin-action-col">الإجراء</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
     </div>
 
-    <!-- 6. التقارير المالية -->
+    <!-- 6. التقارير التفصيلية المملة -->
     <div id="reports" class="section-content">
-        <h2>📊 التقارير المالية والطباعة</h2>
-        <div class="form-row" style="align-items: flex-end;">
+        <h2>📊 التقارير التفصيلية المملة والشاملة</h2>
+        <div class="form-row">
             <div>
-                <label>الفرع:</label>
+                <label>تحديد الفرع للتقرير:</label>
                 <select id="reportBranchSelect" onchange="generateReport()">
                     <option value="all">🌐 جميع الفروع</option>
                     <option value="الفرع الأول">الفرع الأول</option>
@@ -463,88 +471,105 @@
                     <option value="الفرع الثالث">الفرع الثالث</option>
                 </select>
             </div>
-            <div><label>التاريخ:</label><input type="date" id="reportDate" onchange="generateReport()"></div>
-            <div style="display: flex; gap: 10px;">
-                <button class="btn" onclick="generateReport()">عرض</button>
-                <button class="btn btn-print" onclick="window.print()">🖨️ طباعة رسمية</button>
-            </div>
+            <div><label>فلترة بالتاريخ:</label><input type="date" id="reportDate" onchange="generateReport()"></div>
         </div>
-        <div id="reportStructuredOutput" style="margin-top: 25px;"></div>
+        <div id="reportStructuredOutput"></div>
     </div>
 
     <!-- 7. سجل العمليات -->
     <div id="logs" class="section-content">
         <h2>📋 سجل العمليات</h2>
-        <table id="logsTable">
-            <thead>
-                <tr>
-                    <th>الحدث</th>
-                    <th>التفاصيل</th>
-                    <th>المستخدم</th>
-                    <th>الوقت</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
-    </div>
-
-    <!-- 8. إدارة الحسابات -->
-    <div id="users" class="section-content">
-        <h2>👥 إدارة الحسابات وصلاحيات النظام</h2>
-        <p style="font-size: 13px; opacity: 0.8; margin-bottom: 20px;">يمكن للريس ونائب الريس تعديل الرتب وحذف الحسابات (ما عدا حساب الريس الأساسي).</p>
-        <div id="usersCardsContainer"></div>
-    </div>
-
-    <!-- 9. لوحة القيادة (للريس ونائب الريس) -->
-    <div id="bossPanel" class="section-content">
-        <h2>👑 لوحة قيادة الإدارة (طلبات الحسابات واستعادة المرور)</h2>
-        
-        <div id="bossOnlySection">
-            <h3 style="margin-top: 15px;">👤 طلبات إنشاء الحسابات الجديدة (للريس حصرياً)</h3>
-            <table id="bossNewAccRequestsTable">
+        <div class="table-container">
+            <table id="logsTable">
                 <thead>
                     <tr>
-                        <th>اسم المستخدم الطالب</th>
-                        <th>الصلاحية المطلوبة</th>
-                        <th>قرار القيادة</th>
+                        <th>الحدث</th>
+                        <th>التفاصيل</th>
+                        <th>المستخدم</th>
+                        <th>الوقت</th>
                     </tr>
                 </thead>
                 <tbody></tbody>
             </table>
         </div>
+    </div>
 
-        <h3 style="margin-top: 35px;">🔑 طلبات استعادة كلمات المرور (للريس ونائب الريس)</h3>
-        <table id="bossRequestsTable">
-            <thead>
-                <tr>
-                    <th>اسم المستخدم الطالب</th>
-                    <th>وقت الطلب</th>
-                    <th>قرار الموافقة</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
+    <!-- 8. إدارة الحسابات -->
+    <div id="users" class="section-content">
+        <h2>👥 إدارة الحسابات وصلاحيات النظام</h2>
+        <p style="font-size: 12px; opacity: 0.8;">الريس يمكنه منح كافة الرتب (بما فيها ريس ونائب ريس)، أما نائب الريس فيمكنه التعديل لكن يمنع من منح رتبة ريس.</p>
+        <div id="usersCardsContainer"></div>
+    </div>
+
+    <!-- 9. لوحة القيادة -->
+    <div id="bossPanel" class="section-content">
+        <h2>👑 لوحة قيادة الإدارة والقرارات</h2>
+        
+        <div style="background: rgba(217, 119, 6, 0.05); padding: 12px; border-radius: 8px; border: 1px solid #d97706; margin-bottom: 20px;">
+            <h3 style="margin-top:0; color:#d97706;">⚠️ طلبات خصومات الرواتب المعلقة</h3>
+            <div class="table-container">
+                <table id="bossDeductionsRequestsTable">
+                    <thead>
+                        <tr>
+                            <th>اسم الموظف</th>
+                            <th>المبلغ</th>
+                            <th>السبب والتاريخ</th>
+                            <th>قرار القيادة</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="bossOnlySection" style="margin-bottom: 20px;">
+            <h3>👤 طلبات الحسابات الجديدة (للريس حصرياً)</h3>
+            <div class="table-container">
+                <table id="bossNewAccRequestsTable">
+                    <thead>
+                        <tr>
+                            <th>المستخدم</th>
+                            <th>الصلاحية</th>
+                            <th>القرار</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div>
+            <h3>🔑 طلبات استعادة كلمات المرور</h3>
+            <div class="table-container">
+                <table id="bossRequestsTable">
+                    <thead>
+                        <tr>
+                            <th>اسم المستخدم</th>
+                            <th>الوقت</th>
+                            <th>القرار</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
     </div>
 
     <!-- 10. الإعدادات -->
     <div id="settings" class="section-content">
-        <h2>⚙️ الإعدادات والنسخ الاحتياطي الآمن</h2>
-        <p style="font-size: 14px; opacity: 0.8; margin-bottom: 20px;">يقوم النظام بحفظ نسخ احتياطية تلقائياً في ذاكرة المتصفح مع كل تحديث. يمكنك أيضاً تحميل نسخة يدوية لجهازك أو استعادتها في أي وقت لضمان عدم ضياع أي بيانات نهائياً.</p>
-        
-        <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 25px;">
-            <button class="btn" onclick="toggleTheme()" style="background: #475569;">🌓 تبديل المظهر (ليلي/نهاري)</button>
-            <button class="btn" onclick="downloadBackupJSON()" style="background: #059669;">📥 تحميل نسخة احتياطية يدوية (ملف JSON)</button>
-            <button class="btn" onclick="document.getElementById('importFileBtn').click()" style="background: #2563eb;">📤 استعادة بيانات من ملف</button>
-            <input type="file" id="importFileBtn" style="display: none;" accept=".json" onchange="importBackupJSON(event)">
+        <h2>⚙️ الإعدادات المتقدمة والمزامنة السحابية</h2>
+        <p style="font-size: 13px;">البيانات تحفظ تلقائياً في السحابة وفي جهازك. اضغط تحديث البيانات لجلب أحدث البيانات المدخلة من أي جهاز آخر.</p>
+        <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px;">
+            <button class="btn" onclick="toggleTheme()" style="background: #475569;">🌓 تبديل المظهر</button>
+            <button class="btn" onclick="fetchFromCloud()" style="background: #059669;">☁️ تحديث فورى من السحابة</button>
+            <button class="btn" onclick="downloadBackupJSON()" style="background: #2563eb;">📥 تنزيل نسخة JSON</button>
         </div>
-
-        <div class="summary-box" id="lastAutoBackupTimeBox" style="text-align: right; font-weight: normal; font-size: 13px;">
-            🕒 آخر حفظ تلقائي: جارِ التحديث...
-        </div>
+        <div class="summary-box" id="lastAutoBackupTimeBox" style="font-size: 12px;">🕒 حالة المزامنة: متصل بالسحابة العامة</div>
     </div>
 
     <script>
-        const CLOUD_BIN_ID = "zouq_altarig_cloud_sync_master_2026";
+        const CLOUD_SYNC_URL = "https://api.jsonbin.io/v3/b/66ba5358e41b4d34e42023fa";
+        const LOCAL_STORAGE_KEY = "zouq_altarig_cloud_sync_master_2026";
         
         let usersData = {
             'طارق': { pass: '', role: 'boss', resetApproved: false },
@@ -567,1007 +592,962 @@
         let currentUser = "طارق";
         let currentRole = "boss";
         let salesChartInstance = null;
-        let resettingUserSession = "";
+
+        function initSystem() {
+            loadLocalData();
+            fetchFromCloud();
+            populateUsersDropdowns();
+            renderAllSections();
+            
+            const todayStr = new Date().toISOString().split('T')[0];
+            if(document.getElementById('saleDate')) document.getElementById('saleDate').value = todayStr;
+            if(document.getElementById('whDate')) document.getElementById('whDate').value = todayStr;
+        }
+
+        function loadLocalData() {
+            try {
+                const stored = localStorage.getItem(LOCAL_STORAGE_KEY);
+                if (stored) {
+                    const parsed = JSON.parse(stored);
+                    applyParsedData(parsed);
+                }
+            } catch (e) { console.error(e); }
+        }
+
+        function applyParsedData(parsed) {
+            usersData = parsed.usersData || usersData;
+            if(usersData['طارق']) {
+                usersData['طارق'].pass = '';
+                usersData['طارق'].role = 'boss';
+            }
+
+            employees = parsed.employees || [];
+            deductions = parsed.deductions || [];
+            sales = parsed.sales || [];
+            warehouse = parsed.warehouse || [];
+            warehouseLimits = parsed.warehouseLimits || {};
+            passwordResetRequests = parsed.passwordResetRequests || [];
+            newAccountRequests = parsed.newAccountRequests || [];
+            auditLogs = parsed.auditLogs || [];
+        }
 
         function saveData() {
-            try {
-                const fullSystemState = {
-                    usersData,
-                    employees,
-                    deductions,
-                    sales,
-                    warehouse,
-                    warehouseLimits,
-                    passwordResetRequests,
-                    newAccountRequests,
-                    auditLogs,
-                    lastUpdated: Date.now()
-                };
-                // حفظ تلقائي في التخزين المحلي الدائم لحماية البيانات حتى لو انتهى النظام أو انهار المتصفح
-                localStorage.setItem(CLOUD_BIN_ID, JSON.stringify(fullSystemState));
-                
-                // حفظ إضافي في مفتاح نسخ احتياطي مستقل للطوارئ
-                localStorage.setItem(CLOUD_BIN_ID + "_auto_emergency_backup", JSON.stringify(fullSystemState));
-
-                updateAutoBackupStatusDisplay();
-
-                if(window.syncChannel) {
-                    window.syncChannel.postMessage(fullSystemState);
-                }
-            } catch (error) {
-                console.error("خطأ مزامنة:", error);
-            }
-        }
-
-        function updateAutoBackupStatusDisplay() {
-            let box = document.getElementById('lastAutoBackupTimeBox');
-            if(box) {
-                let timeStr = new Date().toLocaleString();
-                box.textContent = `🕒 آخر حفظ احتياطي تلقائي للسحابة والجهاز: ${timeStr} (بياناتك مؤمنة بالكامل ضد الانهيار)`;
-            }
-        }
-
-        // ميزات النسخ الاحتياطي اليدوي والتصدير والاستعادة
-        function downloadBackupJSON() {
-            const fullSystemState = {
-                usersData,
-                employees,
-                deductions,
-                sales,
-                warehouse,
-                warehouseLimits,
-                passwordResetRequests,
-                newAccountRequests,
-                auditLogs,
-                lastUpdated: Date.now()
+            if(usersData['طارق']) usersData['طارق'].pass = '';
+            const state = {
+                usersData, employees, deductions, sales, warehouse,
+                warehouseLimits, passwordResetRequests, newAccountRequests,
+                auditLogs, lastUpdated: Date.now()
             };
-            let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(fullSystemState, null, 2));
-            let downloadAnchor = document.createElement('a');
-            downloadAnchor.setAttribute("href", dataStr);
-            downloadAnchor.setAttribute("download", `Zouq_Altarig_Backup_${new Date().toISOString().split('T')[0]}.json`);
-            document.body.appendChild(downloadAnchor);
-            downloadAnchor.click();
-            downloadAnchor.remove();
-            alert("✅ تم تنزيل النسخة الاحتياطية بنجاح على جهازك.");
+            localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(state));
+            pushToCloud(state);
+            updateStatusBox();
         }
 
-        function importBackupJSON(event) {
-            let file = event.target.files[0];
-            if(!file) return;
-            let reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    let importedState = JSON.parse(e.target.result);
-                    if(importedState && importedState.usersData) {
-                        loadStateFromData(importedState);
-                        saveData();
-                        renderAllData();
-                        alert("✅ تمت استعادة كافة بيانات النظام بنجاح من النسخة الاحتياطية!");
-                    } else {
-                        alert("❌ ملف النسخة الاحتياطية غير صالح.");
-                    }
-                } catch(err) {
-                    alert("❌ حدث خطأ أثناء قراءة الملف.");
+        function pushToCloud(state) {
+            fetch(CLOUD_SYNC_URL, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Master-Key': '$2a$10$8wN/R.wOq9Xl3QO4D8oXe.wS54R1T5k3mN5aZ7wM6pE7A5Y8qK1yS'
+                },
+                body: JSON.stringify(state)
+            }).then(() => {
+                document.getElementById('syncStatusText').textContent = "تم التزامن مع السحابة ✅";
+            }).catch(() => {
+                document.getElementById('syncStatusText').textContent = "محلي (تأكد من النت)";
+            });
+        }
+
+        function fetchFromCloud() {
+            document.getElementById('syncStatusText').textContent = "جارِ جلب البيانات...";
+            fetch(CLOUD_SYNC_URL + "/latest", {
+                headers: {
+                    'X-Master-Key': '$2a$10$8wN/R.wOq9Xl3QO4D8oXe.wS54R1T5k3mN5aZ7wM6pE7A5Y8qK1yS'
                 }
-            };
-            reader.readAsText(file);
-        }
-
-        if (window.BroadcastChannel) {
-            const syncChannel = new BroadcastChannel('Zouq_Restaurant_Cloud_Sync_Channel');
-            window.syncChannel = syncChannel;
-            syncChannel.onmessage = function (event) {
-                if (event.data && event.data.lastUpdated) {
-                    let localStateTime = 0;
-                    try {
-                        let localRaw = localStorage.getItem(CLOUD_BIN_ID);
-                        if(localRaw) localStateTime = JSON.parse(localRaw).lastUpdated || 0;
-                    } catch(e){}
-                    if (event.data.lastUpdated > localStateTime) {
-                        loadStateFromData(event.data);
-                        renderAllData();
-                        showSyncNotification("🔄 تم التحديث سحابياً لحظياً!");
-                    }
+            })
+            .then(res => res.json())
+            .then(data => {
+                if(data && data.record) {
+                    applyParsedData(data.record);
+                    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(data.record));
+                    renderAllSections();
+                    document.getElementById('syncStatusText').textContent = "تم التحديث السحابي ✅";
                 }
-            };
+            })
+            .catch(() => {
+                document.getElementById('syncStatusText').textContent = "وضع الحفظ المحلي";
+            });
         }
 
-        function loadStateFromData(state) {
-            if(state.usersData) usersData = state.usersData;
-            if(state.employees) employees = state.employees;
-            if(state.deductions) deductions = state.deductions;
-            if(state.sales) sales = state.sales;
-            if(state.warehouse) warehouse = state.warehouse;
-            if(state.warehouseLimits) warehouseLimits = state.warehouseLimits;
-            if(state.passwordResetRequests) passwordResetRequests = state.passwordResetRequests;
-            if(state.newAccountRequests) newAccountRequests = state.newAccountRequests;
-            if(state.auditLogs) auditLogs = state.auditLogs;
+        function addLog(action, details) {
+            auditLogs.unshift({ action, details, user: currentUser, time: new Date().toLocaleString('ar-SA') });
+            if(auditLogs.length > 100) auditLogs.pop();
+            renderLogs();
         }
 
-        function fetchCloudData() {
-            try {
-                let cloudRaw = localStorage.getItem(CLOUD_BIN_ID);
-                if(!cloudRaw) {
-                    // استرجاع من النسخة الاحتياطية الطارئة إن وجدت
-                    cloudRaw = localStorage.getItem(CLOUD_BIN_ID + "_auto_emergency_backup");
+        function populateUsersDropdowns() {
+            const loginSel = document.getElementById('loginUserSelect');
+            const forgotSel = document.getElementById('forgotNameSelect');
+            if(!loginSel || !forgotSel) return;
+
+            loginSel.innerHTML = '';
+            forgotSel.innerHTML = '';
+
+            Object.keys(usersData).forEach(u => {
+                loginSel.innerHTML += `<option value="${u}">${u}</option>`;
+                if (u !== 'طارق') {
+                    forgotSel.innerHTML += `<option value="${u}">${u}</option>`;
                 }
-                if(cloudRaw) {
-                    let state = JSON.parse(cloudRaw);
-                    if(!window.lastLoadedTime || state.lastUpdated > window.lastLoadedTime) {
-                        window.lastLoadedTime = state.lastUpdated;
-                        loadStateFromData(state);
-                        renderAllData();
-                    }
-                }
-            } catch(e) {}
-        }
-
-        function manualCloudSync() {
-            fetchCloudData();
-            renderAllData();
-            alert("✅ تم مزامنة البيانات سحابياً بنجاح!");
-        }
-
-        function showSyncNotification(text) {
-            let statusText = document.getElementById('syncStatusText');
-            if(statusText) {
-                statusText.textContent = text;
-                setTimeout(() => { statusText.textContent = "متصل بالسحابة (مزامنة فورية 1 ثانية)"; }, 2500);
-            }
-        }
-
-        window.onload = function() {
-            fetchCloudData();
-            populateLoginUsersDropdown();
-            populateForgotUsersDropdown();
-            setDefaultDates();
-            renderAllData();
-            updateUIPermissions();
-            checkResetApprovalStatus();
-            updateAutoBackupStatusDisplay();
-
-            setInterval(() => {
-                fetchCloudData();
-                checkResetApprovalStatus();
-            }, 1000);
-        };
-
-        function setDefaultDates() {
-            const today = new Date().toISOString().split('T')[0];
-            if(document.getElementById('saleDate')) document.getElementById('saleDate').value = today;
-            if(document.getElementById('whDate')) document.getElementById('whDate').value = today;
-            if(document.getElementById('reportDate')) document.getElementById('reportDate').value = today;
-        }
-
-        function populateLoginUsersDropdown() {
-            const select = document.getElementById('loginUserSelect');
-            if(!select) return;
-            select.innerHTML = '';
-            for(let username in usersData) {
-                let opt = document.createElement('option');
-                opt.value = username;
-                opt.textContent = username + " (" + getRoleDisplayName(usersData[username].role) + ")";
-                select.appendChild(opt);
-            }
+            });
             checkLoginUserType();
         }
 
-        function populateForgotUsersDropdown() {
-            const select = document.getElementById('forgotNameSelect');
-            if(!select) return;
-            select.innerHTML = '';
-            for(let username in usersData) {
-                if(username === 'طارق') continue;
-                let opt = document.createElement('option');
-                opt.value = username;
-                opt.textContent = username;
-                select.appendChild(opt);
-            }
-        }
-
         function checkLoginUserType() {
-            const select = document.getElementById('loginUserSelect');
-            const passContainer = document.getElementById('passwordFieldContainer');
-            if(!select || !passContainer) return;
-            let username = select.value;
-            if(username === 'طارق') {
-                passContainer.style.display = 'none';
+            const selected = document.getElementById('loginUserSelect').value;
+            const container = document.getElementById('passwordFieldContainer');
+            if (selected === 'طارق' || (usersData[selected] && usersData[selected].pass === '')) {
+                container.style.display = 'none';
             } else {
-                passContainer.style.display = 'block';
+                container.style.display = 'block';
             }
         }
 
         function performLogin() {
-            const select = document.getElementById('loginUserSelect');
-            const passInput = document.getElementById('loginPasswordInput');
-            if(!select) return;
-            let username = select.value;
-            let userObj = usersData[username];
+            const selected = document.getElementById('loginUserSelect').value;
+            const inputPass = document.getElementById('loginPasswordInput').value;
+            const u = usersData[selected];
 
-            if(!userObj) {
-                alert("❌ المستخدم غير موجود!");
+            if (selected === 'طارق') {
+                currentUser = 'طارق';
+                currentRole = 'boss';
+                document.getElementById('loginOverlay').style.display = 'none';
+                updateHeaderUserInfo();
+                addLog('تسجيل دخول', `تم دخول طارق (الريس)`);
+                saveData();
                 return;
             }
 
-            if(username === 'طارق') {
-                currentUser = "طارق";
-                currentRole = "boss";
-            } else {
-                let password = passInput.value;
-                if(password !== userObj.pass) {
-                    alert("❌ كلمة المرور غير صحيحة!");
+            if (u) {
+                if (u.resetApproved) {
+                    document.getElementById('loginOverlay').style.display = 'none';
+                    document.getElementById('resetPasswordPageOverlay').style.display = 'flex';
+                    window.resettingUser = selected;
                     return;
                 }
-                currentUser = username;
-                currentRole = userObj.role;
-            }
 
-            document.getElementById('loginOverlay').style.display = 'none';
-            passInput.value = '';
-            updateActiveUserDisplay();
-            updateUIPermissions();
-            renderAllData();
-            logAction("تسجيل دخول", `تم دخول ${currentUser}`);
+                if (u.pass === '' || u.pass === inputPass) {
+                    currentUser = selected;
+                    currentRole = u.role;
+                    document.getElementById('loginOverlay').style.display = 'none';
+                    updateHeaderUserInfo();
+                    addLog('تسجيل دخول', `تم دخول ${currentUser}`);
+                    saveData();
+                } else {
+                    alert('❌ كلمة المرور غير صحيحة!');
+                }
+            }
         }
 
-        function logoutSystem() {
-            currentUser = "";
-            currentRole = "";
-            document.getElementById('loginOverlay').style.display = 'flex';
-            populateLoginUsersDropdown();
-            populateForgotUsersDropdown();
+        function confirmNewPasswordSetting() {
+            const newPass = document.getElementById('newPasswordInput').value;
+            if (!newPass) return;
+            const uName = window.resettingUser;
+            
+            if (uName === 'طارق') {
+                alert('⛔ لا يمكن تغيير أو تعيين كلمة مرور لحساب طارق!');
+                return;
+            }
+
+            if (usersData[uName]) {
+                usersData[uName].pass = newPass;
+                usersData[uName].resetApproved = false;
+                currentUser = uName;
+                currentRole = usersData[uName].role;
+                document.getElementById('resetPasswordPageOverlay').style.display = 'none';
+                updateHeaderUserInfo();
+                saveData();
+            }
         }
 
         function switchAuthScreen(screen) {
             document.getElementById('loginOverlay').style.display = 'none';
             document.getElementById('registerOverlay').style.display = 'none';
             document.getElementById('forgotOverlay').style.display = 'none';
-            document.getElementById('resetPasswordPageOverlay').style.display = 'none';
 
-            if(screen === 'login') document.getElementById('loginOverlay').style.display = 'flex';
-            if(screen === 'register') document.getElementById('registerOverlay').style.display = 'flex';
-            if(screen === 'forgot') {
-                populateForgotUsersDropdown();
-                document.getElementById('forgotOverlay').style.display = 'flex';
-            }
+            if (screen === 'login') document.getElementById('loginOverlay').style.display = 'flex';
+            if (screen === 'register') document.getElementById('registerOverlay').style.display = 'flex';
+            if (screen === 'forgot') document.getElementById('forgotOverlay').style.display = 'flex';
         }
 
         function submitNewAccountRequest() {
-            let name = document.getElementById('regNameInput').value.trim();
-            let pass = document.getElementById('regPassInput').value;
-            let role = document.getElementById('regRoleSelect').value;
+            const name = document.getElementById('regNameInput').value;
+            const pass = document.getElementById('regPassInput').value;
+            const role = document.getElementById('regRoleSelect').value;
 
-            if(!name || !pass) {
-                alert("⚠️ الرجاء إدخال اسم المستخدم وكلمة المرور.");
-                return;
-            }
-            if(usersData[name]) {
-                alert("⚠️ اسم المستخدم موجود مسبقاً!");
-                return;
-            }
+            if (!name || !pass) return;
 
-            newAccountRequests.push({ name, pass, role, time: new Date().toLocaleString() });
+            newAccountRequests.push({ name, pass, role, time: new Date().toLocaleString('ar-SA') });
+            addLog('طلب حساب', `طلب حساب باسم ${name}`);
             saveData();
-            alert("✅ تم إرسال الطلب إلى الريس بنجاح للموافقة.");
-            document.getElementById('regNameInput').value = '';
-            document.getElementById('regPassInput').value = '';
+            alert('✅ تم إرسال الطلب للريس.');
             switchAuthScreen('login');
         }
 
         function submitPasswordResetRequest() {
-            let select = document.getElementById('forgotNameSelect');
-            let name = select.value;
-            if(!name || !usersData[name]) {
-                alert("⚠️ اسم المستخدم غير موجود!");
-                return;
-            }
-            let existing = passwordResetRequests.find(r => r.name === name);
-            if(existing) {
-                alert("⚠️ يوجد طلب استعادة معلق بالفعل لهذا الحساب بانتظار موافقة الإدارة.");
-                return;
-            }
-            passwordResetRequests.push({ name, time: new Date().toLocaleString() });
+            const name = document.getElementById('forgotNameSelect').value;
+            if(name === 'طارق') return;
+            passwordResetRequests.push({ name, time: new Date().toLocaleString('ar-SA') });
+            addLog('استعادة كلمة مرور', `طلب حساب ${name}`);
             saveData();
-            alert("✅ تم إرسال طلب استعادة كلمة المرور إلى لوحة القيادة بنجاح.");
+            alert('✅ تم إرسال الطلب للإدارة.');
             switchAuthScreen('login');
         }
 
-        function checkResetApprovalStatus() {
-            let select = document.getElementById('loginUserSelect');
-            if(!select) return;
-            let username = select.value;
-            if(usersData[username] && usersData[username].resetApproved === true) {
-                resettingUserSession = username;
-                document.getElementById('loginOverlay').style.display = 'none';
-                document.getElementById('resetPasswordPageOverlay').style.display = 'flex';
-                document.getElementById('resetPageInfoText').textContent = `تمت الموافقة على طلبك يا (${username}). أدخل كلمة المرور الجديدة الآن:`;
-            }
-        }
-
-        function confirmNewPasswordSetting() {
-            let newPass = document.getElementById('newPasswordInput').value;
-            if(!newPass) {
-                alert("⚠️ يجب إدخال كلمة المرور الجديدة.");
-                return;
-            }
-            if(usersData[resettingUserSession]) {
-                usersData[resettingUserSession].pass = newPass;
-                usersData[resettingUserSession].resetApproved = false;
-                saveData();
-                alert("✅ تم تحديث كلمة المرور بنجاح! يمكنك الآن تسجيل الدخول.");
-                document.getElementById('newPasswordInput').value = '';
-                document.getElementById('resetPasswordPageOverlay').style.display = 'none';
-                switchAuthScreen('login');
-            }
-        }
-
-        function updateActiveUserDisplay() {
+        function updateHeaderUserInfo() {
             document.getElementById('activeUserDisplay').textContent = currentUser;
             const badge = document.getElementById('activeUserRoleBadge');
-            badge.textContent = getRoleDisplayName(currentRole);
-            badge.className = "badge " + getRoleBadgeClass(currentRole);
+            badge.textContent = getRoleNameInArabic(currentRole);
+            badge.className = `badge badge-${currentRole}`;
+
+            const bossSection = document.getElementById('bossLimitSection');
+            if (currentRole === 'boss' || currentRole === 'vice_boss') {
+                if(bossSection) bossSection.style.display = 'block';
+            } else {
+                if(bossSection) bossSection.style.display = 'none';
+            }
+
+            const bossOnlySec = document.getElementById('bossOnlySection');
+            if(bossOnlySec) bossOnlySec.style.display = (currentRole === 'boss') ? 'block' : 'none';
         }
 
-        function getRoleDisplayName(role) {
+        function getRoleNameInArabic(role) {
             switch(role) {
                 case 'boss': return 'الريس (Boss)';
-                case 'vice_boss': return 'نائب الريس (Vice Boss)';
+                case 'vice_boss': return 'نائب الريس';
                 case 'manager': return 'مدير النظام';
                 case 'watcher': return 'مراقب';
                 default: return role;
             }
         }
 
-        function getRoleBadgeClass(role) {
-            switch(role) {
-                case 'boss': return 'badge-boss';
-                case 'vice_boss': return 'badge-vice';
-                case 'manager': return 'badge-manager';
-                case 'watcher': return 'badge-watcher';
-                default: return 'badge-watcher';
-            }
-        }
-
-        function updateUIPermissions() {
-            const bossOnlySec = document.getElementById('bossOnlySection');
-            if(currentRole === 'boss') {
-                if(bossOnlySec) bossOnlySec.style.display = 'block';
-            } else {
-                if(bossOnlySec) bossOnlySec.style.display = 'none';
-            }
-
-            let actionCols = document.querySelectorAll('.admin-action-col');
-            actionCols.forEach(col => {
-                col.style.display = (currentRole === 'watcher') ? 'none' : 'table-cell';
-            });
+        function logoutSystem() {
+            document.getElementById('loginOverlay').style.display = 'flex';
         }
 
         function switchTab(tabId) {
-            if(tabId === 'bossPanel' && currentRole !== 'boss' && currentRole !== 'vice_boss') {
-                alert("❌ هذه اللوحة مخصصة للريس ونائب الريس فقط.");
-                return;
-            }
+            document.querySelectorAll('.section-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
 
-            let contents = document.querySelectorAll('.section-content');
-            contents.forEach(c => c.classList.remove('active'));
+            const target = document.getElementById(tabId);
+            if(target) target.classList.add('active');
 
-            let buttons = document.querySelectorAll('.tab-btn');
-            buttons.forEach(b => b.classList.remove('active'));
-
-            document.getElementById(tabId).classList.add('active');
             event.currentTarget.classList.add('active');
 
-            if(tabId === 'analytics') renderChart();
+            if(tabId === 'analytics') renderAnalyticsChart();
             if(tabId === 'reports') generateReport();
-            if(tabId === 'users') renderUsersManagement();
-            if(tabId === 'bossPanel') renderBossPanel();
-            if(tabId === 'logs') renderAuditLogs();
-        }
-
-        function logAction(eventTitle, details) {
-            auditLogs.unshift({
-                event: eventTitle,
-                details: details,
-                user: currentUser || 'النظام',
-                time: new Date().toLocaleString()
-            });
-            if(auditLogs.length > 100) auditLogs.pop();
-            saveData();
         }
 
         function saveEmployee() {
-            if(currentRole === 'watcher') { alert("❌ غير مسموح."); return; }
-            let name = document.getElementById('empName').value.trim();
-            let role = document.getElementById('empRole').value;
-            let salary = parseFloat(document.getElementById('empSalary').value);
+            const editId = document.getElementById('editEmpId').value;
+            const name = document.getElementById('empName').value;
+            const branch = document.getElementById('empBranch').value;
+            const role = document.getElementById('empRole').value;
+            const salary = parseFloat(document.getElementById('empSalary').value) || 0;
 
-            if(!name || isNaN(salary) || salary <= 0) {
-                alert("⚠️ أدخل اسم الموظف وراتباً صحيحاً.");
-                return;
+            if(!name) return;
+
+            if(editId) {
+                const emp = employees.find(e => e.id == editId);
+                if(emp) {
+                    emp.name = name;
+                    emp.branch = branch;
+                    emp.role = role;
+                    emp.salary = salary;
+                    addLog('تعديل موظف', `تعديل بيانات الموظف ${name}`);
+                }
+            } else {
+                employees.push({ id: Date.now(), name, branch, role, salary });
+                addLog('إضافة موظف', `إضافة ${name} لفرع (${branch})`);
             }
 
-            employees.push({ id: Date.now(), name, role, salary });
             saveData();
-            renderAllData();
-
-            document.getElementById('empName').value = '';
-            document.getElementById('empSalary').value = '';
-            logAction("إضافة موظف", `إضافة الموظف ${name}`);
-            alert("✅ تم الحفظ.");
+            cancelEmployeeEdit();
+            renderEmployees();
+            renderMonthlyPayroll();
+            populateShiftResponsibleOptions();
         }
 
-        function deleteEmployee(id) {
-            if(currentRole === 'watcher') { alert("❌ غير مسموح."); return; }
-            if(confirm("حذف هذا الموظف؟")) {
-                employees = employees.filter(e => e.id !== id);
-                saveData();
-                renderAllData();
+        function editEmployee(id) {
+            const emp = employees.find(e => e.id === id);
+            if(emp) {
+                document.getElementById('editEmpId').value = emp.id;
+                document.getElementById('empName').value = emp.name;
+                document.getElementById('empBranch').value = emp.branch || 'الفرع الأول';
+                document.getElementById('empRole').value = emp.role;
+                document.getElementById('empSalary').value = emp.salary;
+
+                document.getElementById('saveEmpBtn').textContent = 'حفظ التعديلات';
+                document.getElementById('cancelEmpEditBtn').style.display = 'inline-block';
             }
+        }
+
+        function cancelEmployeeEdit() {
+            document.getElementById('editEmpId').value = '';
+            document.getElementById('empName').value = '';
+            document.getElementById('empSalary').value = '';
+            document.getElementById('saveEmpBtn').textContent = 'حفظ موظف جديد';
+            document.getElementById('cancelEmpEditBtn').style.display = 'none';
         }
 
         function renderEmployees() {
             const tbody = document.querySelector('#empTable tbody');
-            const search = document.getElementById('searchEmpInput').value.toLowerCase();
-            if(!tbody) return;
+            const query = document.getElementById('searchEmpInput').value.toLowerCase();
             tbody.innerHTML = '';
-            let totalSalary = 0;
+            let total = 0;
 
-            let filtered = employees.filter(e => e.name.toLowerCase().includes(search) || e.role.toLowerCase().includes(search));
-
-            filtered.forEach(emp => {
-                totalSalary += emp.salary;
-                let tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td>${emp.name}</td>
-                    <td>${emp.role}</td>
-                    <td>${emp.salary.toLocaleString()} ريال</td>
-                    <td class="admin-action-col"><button class="btn btn-danger" onclick="deleteEmployee(${emp.id})">حذف</button></td>
+            employees.filter(e => e.name.toLowerCase().includes(query)).forEach(e => {
+                total += e.salary;
+                tbody.innerHTML += `
+                    <tr>
+                        <td><strong>${e.name}</strong></td>
+                        <td>${e.branch || 'الفرع الأول'}</td>
+                        <td>${e.role}</td>
+                        <td>${e.salary.toLocaleString()} ريال</td>
+                        <td class="admin-action-col">
+                            <button class="btn btn-warning" onclick="editEmployee(${e.id})">✏️ تعديل</button>
+                            <button class="btn btn-danger" onclick="deleteEmployee(${e.id})">حذف</button>
+                        </td>
+                    </tr>
                 `;
-                tbody.appendChild(tr);
             });
-
-            document.getElementById('empSummary').textContent = `إجمالي الرواتب الأساسية: ${totalSalary.toLocaleString()} ريال`;
-            populateEmployeeDropdowns();
+            document.getElementById('empSummary').textContent = `إجمالي الرواتب الأساسية: ${total.toLocaleString()} ريال`;
+            populateDeductEmpOptions();
         }
 
-        function populateEmployeeDropdowns() {
-            const deductSelect = document.getElementById('deductEmpSelect');
-            const shiftSelect = document.getElementById('saleShiftResponsible');
-            if(!deductSelect || !shiftSelect) return;
-
-            let currentDeductVal = deductSelect.value;
-            let currentShiftVal = shiftSelect.value;
-
-            deductSelect.innerHTML = '';
-            shiftSelect.innerHTML = '';
-
-            employees.forEach(emp => {
-                let opt1 = document.createElement('option');
-                opt1.value = emp.name;
-                opt1.textContent = `${emp.name} (${emp.role})`;
-                deductSelect.appendChild(opt1);
-
-                let opt2 = document.createElement('option');
-                opt2.value = emp.name;
-                opt2.textContent = `${emp.name} (${emp.role})`;
-                shiftSelect.appendChild(opt2);
-            });
-
-            if(currentDeductVal) deductSelect.value = currentDeductVal;
-            if(currentShiftVal) shiftSelect.value = currentShiftVal;
+        function deleteEmployee(id) {
+            employees = employees.filter(e => e.id !== id);
+            saveData();
+            renderEmployees();
+            renderMonthlyPayroll();
         }
 
         function renderMonthlyPayroll() {
             const tbody = document.querySelector('#monthlyPayrollTable tbody');
-            const search = document.getElementById('searchEmpInput').value.toLowerCase();
-            if(!tbody) return;
             tbody.innerHTML = '';
-            let totalNet = 0;
+            let grandTotalNet = 0;
 
-            let filtered = employees.filter(e => e.name.toLowerCase().includes(search));
+            employees.forEach(e => {
+                const empApprovedDeductions = deductions
+                    .filter(d => d.empName === e.name && d.status === 'approved')
+                    .reduce((acc, cur) => acc + cur.amount, 0);
 
-            filtered.forEach(emp => {
-                let empDeductions = deductions.filter(d => d.empName === emp.name).reduce((sum, d) => sum + d.amount, 0);
-                let netSalary = emp.salary - empDeductions;
-                if(netSalary < 0) netSalary = 0;
-                totalNet += netSalary;
+                const net = e.salary - empApprovedDeductions;
+                grandTotalNet += net;
 
-                let tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td>${emp.name}</td>
-                    <td>${emp.role}</td>
-                    <td>${emp.salary.toLocaleString()} ريال</td>
-                    <td style="color: #ef4444;">${empDeductions.toLocaleString()} ريال</td>
-                    <td style="font-weight: bold; color: #059669;">${netSalary.toLocaleString()} ريال</td>
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${e.name}</td>
+                        <td>${e.branch || 'الفرع الأول'}</td>
+                        <td>${e.role}</td>
+                        <td>${e.salary.toLocaleString()} ريال</td>
+                        <td style="color:red; font-weight:bold;">${empApprovedDeductions.toLocaleString()} ريال</td>
+                        <td style="font-weight:bold; color:green;">${net.toLocaleString()} ريال</td>
+                    </tr>
                 `;
-                tbody.appendChild(tr);
             });
+            document.getElementById('totalNetPayrollBox').textContent = `إجمالي صافي الرواتب: ${grandTotalNet.toLocaleString()} ريال`;
+        }
 
-            document.getElementById('totalNetPayrollBox').textContent = `إجمالي الرواتب النهائية المستحقة: ${totalNet.toLocaleString()} ريال`;
+        function populateDeductEmpOptions() {
+            const sel = document.getElementById('deductEmpSelect');
+            if(!sel) return;
+            sel.innerHTML = '';
+            employees.forEach(e => sel.innerHTML += `<option value="${e.name}">${e.name} (${e.branch || 'الفرع الأول'})</option>`);
         }
 
         function saveDeduction() {
-            if(currentRole === 'watcher') { alert("❌ غير مسموح."); return; }
-            let empName = document.getElementById('deductEmpSelect').value;
-            let amount = parseFloat(document.getElementById('deductAmount').value);
-            let reason = document.getElementById('deductReason').value.trim();
+            const empName = document.getElementById('deductEmpSelect').value;
+            const amount = parseFloat(document.getElementById('deductAmount').value) || 0;
+            const reason = document.getElementById('deductReason').value;
 
-            if(!empName || isNaN(amount) || amount <= 0 || !reason) {
-                alert("⚠️ أدخل بيانات الخصم بدقة.");
-                return;
-            }
+            if(!empName || amount <= 0) return;
 
-            deductions.push({ id: Date.now(), empName, amount, reason, date: new Date().toLocaleDateString() });
+            deductions.push({ 
+                id: Date.now(), empName, amount, reason, 
+                date: new Date().toLocaleDateString('ar-SA'), status: 'pending'
+            });
+
+            addLog('خصم معلق', `خصم ${amount} ريال لـ ${empName}`);
             saveData();
-            renderAllData();
-
+            renderDeductions();
+            renderBossPanel();
             document.getElementById('deductAmount').value = '';
             document.getElementById('deductReason').value = '';
-            logAction("تسجيل خصم", `خصم ${amount} ريال من ${empName}`);
-            alert("✅ تم تسجيل الخصم.");
-        }
-
-        function deleteDeduction(id) {
-            if(currentRole === 'watcher') { alert("❌ غير مسموح."); return; }
-            if(confirm("حذف هذا الخصم؟")) {
-                deductions = deductions.filter(d => d.id !== id);
-                saveData();
-                renderAllData();
-            }
+            alert('⏳ تم تسجيل الخصم وقيد الانتظار لموافقة القيادة.');
         }
 
         function renderDeductions() {
             const tbody = document.querySelector('#deductTable tbody');
-            const search = document.getElementById('searchDeductGlobal').value.toLowerCase();
-            if(!tbody) return;
+            const query = document.getElementById('searchDeductGlobal').value.toLowerCase();
             tbody.innerHTML = '';
-            let totalDeduct = 0;
+            let approvedTotal = 0;
 
-            let filtered = deductions.filter(d => d.empName.toLowerCase().includes(search) || d.reason.toLowerCase().includes(search));
+            deductions.filter(d => d.empName.toLowerCase().includes(query)).forEach(d => {
+                const emp = employees.find(e => e.name === d.empName);
+                if (d.status === 'approved') approvedTotal += d.amount;
 
-            filtered.forEach(d => {
-                totalDeduct += d.amount;
-                let empObj = employees.find(e => e.name === d.empName);
-                let role = empObj ? empObj.role : '';
+                let statusBadge = d.status === 'approved' 
+                    ? `<span class="badge badge-approved">✅ معتمد</span>`
+                    : `<span class="badge badge-pending">⏳ قيد الانتظار</span>`;
 
-                let tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td>${d.empName}</td>
-                    <td>${role}</td>
-                    <td style="color: #ef4444; font-weight: bold;">${d.amount.toLocaleString()} ريال</td>
-                    <td>${d.reason} <span style="font-size: 11px; opacity:0.6;">(${d.date})</span></td>
-                    <td class="admin-action-col"><button class="btn btn-danger" onclick="deleteDeduction(${d.id})">حذف</button></td>
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${d.empName}</td>
+                        <td>${emp ? (emp.branch || 'الفرع الأول') : '-'}</td>
+                        <td>${emp ? emp.role : '-'}</td>
+                        <td style="color:red;">${d.amount} ريال</td>
+                        <td>${d.reason} (${d.date})</td>
+                        <td>${statusBadge}</td>
+                        <td class="admin-action-col">
+                            <button class="btn btn-danger" onclick="deleteDeduction(${d.id})">إلغاء</button>
+                        </td>
+                    </tr>
                 `;
-                tbody.appendChild(tr);
             });
+            document.getElementById('deductSummary').textContent = `الخصومات المعتمدة: ${approvedTotal.toLocaleString()} ريال`;
+        }
 
-            document.getElementById('deductSummary').textContent = `إجمالي الخصومات المعروضة: ${totalDeduct.toLocaleString()} ريال`;
+        function deleteDeduction(id) {
+            deductions = deductions.filter(d => d.id !== id);
+            saveData();
+            renderDeductions();
+            renderMonthlyPayroll();
+            renderBossPanel();
+        }
+
+        function populateShiftResponsibleOptions() {
+            const sel = document.getElementById('saleShiftResponsible');
+            if(!sel) return;
+            sel.innerHTML = '';
+            employees.forEach(e => sel.innerHTML += `<option value="${e.name}">${e.name}</option>`);
         }
 
         function saveSale() {
-            if(currentRole === 'watcher') { alert("❌ غير مسموح."); return; }
-            let branch = document.getElementById('saleBranch').value;
-            let department = document.getElementById('saleDepartment').value;
-            let shift = document.getElementById('saleShift').value;
-            let responsible = document.getElementById('saleShiftResponsible').value;
-            let qty = parseInt(document.getElementById('saleQty').value);
-            let amount = parseFloat(document.getElementById('saleAmount').value);
-            let date = document.getElementById('saleDate').value;
+            const branch = document.getElementById('saleBranch').value;
+            const dept = document.getElementById('saleDepartment').value;
+            const shift = document.getElementById('saleShift').value;
+            const resp = document.getElementById('saleShiftResponsible').value;
+            const qty = parseInt(document.getElementById('saleQty').value) || 0;
+            const amount = parseFloat(document.getElementById('saleAmount').value) || 0;
+            const date = document.getElementById('saleDate').value;
 
-            if(!branch || !department || isNaN(qty) || isNaN(amount) || !date) {
-                alert("⚠️ أدخل بيانات المبيعات بدقة.");
-                return;
-            }
+            if(amount <= 0) return;
 
-            sales.push({ id: Date.now(), branch, department, shift, responsible: responsible || 'غير متوفر', qty, amount, user: currentUser, date });
+            sales.push({ id: Date.now(), branch, dept, shift, resp, qty, amount, date, user: currentUser });
+            addLog('مبيعات', `مبيعات ${dept} بقيمة ${amount} ريال`);
             saveData();
-            renderAllData();
-
-            document.getElementById('saleQty').value = '';
+            renderSales();
             document.getElementById('saleAmount').value = '';
-            logAction("تسجيل مبيعات", `مبيعات ${branch} بقيمة ${amount} ريال`);
-            alert("✅ تم التسجيل.");
-        }
-
-        function deleteSale(id) {
-            if(currentRole === 'watcher') { alert("❌ غير مسموح."); return; }
-            if(confirm("حذف سجل المبيعات؟")) {
-                sales = sales.filter(s => s.id !== id);
-                saveData();
-                renderAllData();
-            }
         }
 
         function renderSales() {
             const tbody = document.querySelector('#salesTable tbody');
-            if(!tbody) return;
             tbody.innerHTML = '';
-            let totalAmount = 0;
+            let total = 0;
 
             sales.forEach(s => {
-                totalAmount += s.amount;
-                let tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td>${s.branch}</td>
-                    <td>${s.department}</td>
-                    <td>${s.shift}</td>
-                    <td>${s.responsible}</td>
-                    <td>${s.qty}</td>
-                    <td style="font-weight: bold; color: #059669;">${s.amount.toLocaleString()} ريال</td>
-                    <td><span class="badge badge-manager">${s.user}</span></td>
-                    <td>${s.date}</td>
-                    <td class="admin-action-col"><button class="btn btn-danger" onclick="deleteSale(${s.id})">حذف</button></td>
+                total += s.amount;
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${s.branch}</td>
+                        <td>${s.dept}</td>
+                        <td>${s.shift}</td>
+                        <td>${s.resp}</td>
+                        <td>${s.qty}</td>
+                        <td style="color:green; font-weight:bold;">${s.amount} ريال</td>
+                        <td>${s.user}</td>
+                        <td>${s.date}</td>
+                        <td class="admin-action-col">
+                            <button class="btn btn-danger" onclick="deleteSale(${s.id})">حذف</button>
+                        </td>
+                    </tr>
                 `;
-                tbody.appendChild(tr);
             });
-
-            document.getElementById('salesSummary').textContent = `إجمالي الإيرادات الكلية: ${totalAmount.toLocaleString()} ريال`;
+            document.getElementById('salesSummary').textContent = `إجمالي الإيرادات: ${total.toLocaleString()} ريال`;
         }
 
-        function renderChart() {
-            const canvas = document.getElementById('salesChart');
-            if(!canvas) return;
-            const ctx = canvas.getContext('2d');
-            let deptTotals = {};
-            sales.forEach(s => {
-                deptTotals[s.department] = (deptTotals[s.department] || 0) + s.amount;
-            });
+        function deleteSale(id) {
+            sales = sales.filter(s => s.id !== id);
+            saveData();
+            renderSales();
+        }
 
-            let labels = Object.keys(deptTotals);
-            let data = Object.values(deptTotals);
-
+        function renderAnalyticsChart() {
+            const ctx = document.getElementById('salesChart');
+            if(!ctx) return;
             if(salesChartInstance) salesChartInstance.destroy();
+
+            const branches = ['الفرع الأول', 'الفرع الثاني', 'الفرع الثالث'];
+            const totals = branches.map(b => sales.filter(s => s.branch === b).reduce((a, c) => a + c.amount, 0));
 
             salesChartInstance = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: labels.length ? labels : ['لا توجد مبيعات'],
-                    datasets: [{
-                        label: 'إجمالي الإيرادات (ريال)',
-                        data: data.length ? data : [0],
-                        backgroundColor: ['#2563eb', '#7c3aed', '#059669', '#d97706', '#ef4444']
-                    }]
+                    labels: branches,
+                    datasets: [{ label: 'الإيرادات', data: totals, backgroundColor: ['#2563eb', '#059669', '#7c3aed'] }]
                 },
-                options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true } } }
+                options: { responsive: true, maintainAspectRatio: false }
             });
         }
 
-        function toggleReceiveFields() {
-            let actionType = document.getElementById('whActionType').value;
-            let receiveFields = document.getElementById('receiveExtraFields');
-            receiveFields.style.display = actionType.includes('وارد') ? 'grid' : 'none';
+        function checkCustomItemInput() {
+            const sel = document.getElementById('whItemSelect').value;
+            document.getElementById('whCustomInput').style.display = (sel === 'custom') ? 'block' : 'none';
         }
 
-        function checkCustomItemInput() {
-            let select = document.getElementById('whItemSelect');
-            let customInput = document.getElementById('whCustomInput');
-            customInput.style.display = select.value === 'custom' ? 'block' : 'none';
-            if(select.value === 'custom') customInput.focus();
+        function toggleReceiveFields() {
+            const action = document.getElementById('whActionType').value;
+            document.getElementById('receiveExtraFields').style.display = action.includes('وارد') ? 'grid' : 'none';
         }
 
         function saveBossLimit() {
-            if(currentRole !== 'boss') { alert("❌ للريس فقط."); return; }
-            let name = document.getElementById('limitItemName').value.trim();
-            let maxQty = parseFloat(document.getElementById('limitMaxQty').value);
-            let minSafe = parseFloat(document.getElementById('limitMinSafe').value);
-
-            if(!name || isNaN(maxQty) || isNaN(minSafe)) {
-                alert("⚠️ أدخل بيانات صحيحة.");
+            if (currentRole !== 'boss' && currentRole !== 'vice_boss') {
+                alert('⛔ خيار تحديد الحدود مخصص للريس ونائب الريس فقط!');
                 return;
             }
 
-            warehouseLimits[name] = { maxQty, minSafe };
+            const item = document.getElementById('limitItemName').value;
+            const maxQty = parseFloat(document.getElementById('limitMaxQty').value) || 0;
+            const minSafe = parseFloat(document.getElementById('limitMinSafe').value) || 0;
+
+            if(!item) return;
+
+            warehouseLimits[item] = { maxQty, minSafe };
+            addLog('قيود مستودع', `تحديد حد الصنف ${item}`);
             saveData();
-            alert(`✅ تم ضبط حدود الصنف (${name}).`);
+            alert('✅ تم تحديد القيود بنجاح!');
             renderWarehouse();
         }
 
         function saveWarehouseItem() {
-            if(currentRole === 'watcher') { alert("❌ غير مسموح."); return; }
-            let branch = document.getElementById('whBranch').value;
-            let itemSelect = document.getElementById('whItemSelect').value;
-            let customInput = document.getElementById('whCustomInput').value.trim();
-            let itemName = (itemSelect === 'custom') ? customInput : itemSelect;
-            let actionType = document.getElementById('whActionType').value;
-            let qty = parseFloat(document.getElementById('whQty').value);
-            let unit = document.getElementById('whUnit').value;
-            let date = document.getElementById('whDate').value;
+            const branch = document.getElementById('whBranch').value;
+            let item = document.getElementById('whItemSelect').value;
+            if(item === 'custom') item = document.getElementById('whCustomInput').value;
 
-            let totalValue = actionType.includes('وارد') ? (parseFloat(document.getElementById('whTotalValue').value) || 0) : 0;
-            let paidAmount = actionType.includes('وارد') ? (parseFloat(document.getElementById('whPaidAmount').value) || 0) : 0;
+            const action = document.getElementById('whActionType').value;
+            const qty = parseFloat(document.getElementById('whQty').value) || 0;
+            const unit = document.getElementById('whUnit').value;
+            const date = document.getElementById('whDate').value;
+            const totalVal = parseFloat(document.getElementById('whTotalValue').value) || 0;
+            const paidVal = parseFloat(document.getElementById('whPaidAmount').value) || 0;
 
-            if(!itemName || isNaN(qty) || qty <= 0 || !date) {
-                alert("⚠️ أدخل البيانات بشكل صحيح.");
-                return;
-            }
+            if(!item || qty <= 0) return;
 
-            warehouse.push({ id: Date.now(), branch, itemName, actionType, qty, unit, totalValue, paidAmount, date, user: currentUser });
+            warehouse.push({ id: Date.now(), branch, item, action, qty, unit, date, totalVal, paidVal, user: currentUser });
+            addLog('حركة مستودع', `${action} للصنف ${item}`);
             saveData();
             renderWarehouse();
-
             document.getElementById('whQty').value = '';
-            document.getElementById('whTotalValue').value = '';
-            document.getElementById('whPaidAmount').value = '';
-            logAction("حركة مستودع", `${actionType} للصنف ${itemName}`);
-            alert("✅ تم التسجيل.");
-        }
-
-        function deleteWarehouseItem(id) {
-            if(currentRole === 'watcher') { alert("❌ غير مسموح."); return; }
-            if(confirm("حذف حركة المستودع هذه؟")) {
-                warehouse = warehouse.filter(w => w.id !== id);
-                saveData();
-                renderWarehouse();
-            }
         }
 
         function renderWarehouse() {
             const tbody = document.querySelector('#warehouseTable tbody');
-            const filterBranch = document.getElementById('whFilterBranch').value;
-            if(!tbody) return;
             tbody.innerHTML = '';
 
-            let filtered = filterBranch === 'all' ? warehouse : warehouse.filter(w => w.branch === filterBranch);
-
-            let stockBalances = {};
+            const stockMap = {};
             warehouse.forEach(w => {
-                let key = `${w.branch}_${w.itemName}`;
-                if(!stockBalances[key]) stockBalances[key] = 0;
-                if(w.actionType.includes('وارد')) stockBalances[key] += w.qty;
-                else stockBalances[key] -= w.qty;
+                const key = `${w.branch}_${w.item}`;
+                if(!stockMap[key]) stockMap[key] = 0;
+                if(w.action.includes('وارد')) stockMap[key] += w.qty;
+                else stockMap[key] -= w.qty;
             });
 
-            filtered.forEach(w => {
-                let key = `${w.branch}_${w.itemName}`;
-                let currentBalance = stockBalances[key] !== undefined ? stockBalances[key] : w.qty;
-                
-                let alertBadge = '<span class="badge" style="background:#059669; color:white;">آمنة</span>';
-                let limits = warehouseLimits[w.itemName];
-                if(limits) {
-                    if(currentBalance <= limits.minSafe) alertBadge = '<span class="badge badge-danger">⚠️ نقص!</span>';
-                    else if(currentBalance >= limits.maxQty) alertBadge = '<span class="badge badge-warning">⚡ حد أقصى!</span>';
+            warehouse.forEach(w => {
+                const currentStock = stockMap[`${w.branch}_${w.item}`] || 0;
+                let statusBadge = `<span class="badge" style="background:#059669; color:white;">متوفر</span>`;
+
+                const limit = warehouseLimits[w.item];
+                if(limit) {
+                    if(currentStock <= limit.minSafe) statusBadge = `<span class="badge" style="background:#ef4444; color:white;">⚠️ تحت الحد الأدنى</span>`;
+                    else if(currentStock >= limit.maxQty) statusBadge = `<span class="badge" style="background:#d97706; color:white;">مكتمل الحد الأقصى</span>`;
                 }
 
-                let financeInfo = '-';
-                if(w.actionType.includes('وارد')) {
-                    let remaining = w.totalValue - w.paidAmount;
-                    financeInfo = `الإجمالي: ${w.totalValue} | المدفوع: ${w.paidAmount} | الباقي: <span style="color:${remaining>0?'#ef4444':'#059669'}">${remaining}</span>`;
-                }
-
-                let tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td>${w.branch}</td>
-                    <td><strong>${w.itemName}</strong><br><span style="font-size:12px; color:var(--primary-btn);">الرصيد: ${currentBalance} ${w.unit}</span></td>
-                    <td>${alertBadge}</td>
-                    <td>${w.actionType}</td>
-                    <td>${w.qty}</td>
-                    <td>${w.unit}</td>
-                    <td style="font-size: 13px;">${financeInfo}</td>
-                    <td>${w.date}</td>
-                    <td><span class="badge badge-watcher">${w.user}</span></td>
-                    <td class="admin-action-col"><button class="btn btn-danger" onclick="deleteWarehouseItem(${w.id})">حذف</button></td>
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${w.branch}</td>
+                        <td><strong>${w.item}</strong> (${currentStock})</td>
+                        <td>${statusBadge}</td>
+                        <td>${w.action}</td>
+                        <td>${w.qty}</td>
+                        <td>${w.unit}</td>
+                        <td>${w.totalVal ? `القيمة: ${w.totalVal}` : '-'}</td>
+                        <td>${w.date}</td>
+                        <td>${w.user}</td>
+                        <td class="admin-action-col">
+                            <button class="btn btn-danger" onclick="deleteWarehouseItem(${w.id})">حذف</button>
+                        </td>
+                    </tr>
                 `;
-                tbody.appendChild(tr);
             });
+        }
+
+        function deleteWarehouseItem(id) {
+            warehouse = warehouse.filter(w => w.id !== id);
+            saveData();
+            renderWarehouse();
         }
 
         function generateReport() {
             const branch = document.getElementById('reportBranchSelect').value;
             const date = document.getElementById('reportDate').value;
-            const output = document.getElementById('reportStructuredOutput');
-            if(!output) return;
+            const container = document.getElementById('reportStructuredOutput');
 
-            let filteredSales = sales.filter(s => (branch === 'all' || s.branch === branch) && (!date || s.date === date));
-            let filteredWh = warehouse.filter(w => (branch === 'all' || w.branch === branch) && (!date || w.date === date));
+            const filteredSales = sales.filter(s => (branch === 'all' || s.branch === branch) && (!date || s.date === date));
+            const totalSales = filteredSales.reduce((acc, cur) => acc + cur.amount, 0);
 
-            let totalSalesAmount = filteredSales.reduce((sum, s) => sum + s.amount, 0);
-            let totalSalesOrders = filteredSales.reduce((sum, s) => sum + s.qty, 0);
-            let totalPurchases = filteredWh.filter(w => w.actionType.includes('وارد')).reduce((sum, w) => sum + w.totalValue, 0);
-            let totalPaid = filteredWh.filter(w => w.actionType.includes('وارد')).reduce((sum, w) => sum + w.paidAmount, 0);
-            let totalRemainingDebt = totalPurchases - totalPaid;
-            let totalPayroll = employees.reduce((sum, e) => sum + e.salary, 0);
+            const filteredWH = warehouse.filter(w => (branch === 'all' || w.branch === branch) && (!date || w.date === date));
+            const totalWHCost = filteredWH.filter(w => w.action.includes('وارد')).reduce((acc, cur) => acc + (cur.totalVal || 0), 0);
+            const totalPaidWH = filteredWH.filter(w => w.action.includes('وارد')).reduce((acc, cur) => acc + (cur.paidVal || 0), 0);
 
-            output.innerHTML = `
-                <div class="report-card">
-                    <h3>📑 التقرير الشامل (${branch === 'all' ? 'جميع الفروع' : branch}) - ${date || 'الكل'}</h3>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; margin-top: 15px;">
-                        <div style="background:var(--card-bg); padding:15px; border-radius:6px; border:1px solid var(--border-color);">
-                            <h4>💰 الإيرادات</h4>
-                            <p style="font-size: 20px; font-weight: bold; color: #059669;">${totalSalesAmount.toLocaleString()} ريال</p>
-                            <small>الطلبات: ${totalSalesOrders}</small>
-                        </div>
-                        <div style="background:var(--card-bg); padding:15px; border-radius:6px; border:1px solid var(--border-color);">
-                            <h4>🛒 المشتريات</h4>
-                            <p style="font-size: 20px; font-weight: bold; color: #2563eb;">${totalPurchases.toLocaleString()} ريال</p>
-                            <small>الديون: <span style="color:#ef4444; font-weight:bold;">${totalRemainingDebt.toLocaleString()} ريال</span></small>
-                        </div>
-                        <div style="background:var(--card-bg); padding:15px; border-radius:6px; border:1px solid var(--border-color);">
-                            <h4>👥 الرواتب</h4>
-                            <p style="font-size: 20px; font-weight: bold; color: #7c3aed;">${totalPayroll.toLocaleString()} ريال</p>
-                            <small>الموظفون: ${employees.length}</small>
-                        </div>
+            const filteredEmps = employees.filter(e => (branch === 'all' || e.branch === branch));
+            const totalSalaries = filteredEmps.reduce((acc, cur) => acc + cur.salary, 0);
+
+            const approvedDeductions = deductions.filter(d => d.status === 'approved').reduce((acc, cur) => acc + cur.amount, 0);
+
+            let salesRowsHTML = '';
+            filteredSales.forEach(s => {
+                salesRowsHTML += `
+                    <tr>
+                        <td>${s.branch}</td>
+                        <td>${s.dept}</td>
+                        <td>${s.shift}</td>
+                        <td>${s.resp}</td>
+                        <td>${s.qty}</td>
+                        <td style="color:green; font-weight:bold;">${s.amount.toLocaleString()} ريال</td>
+                        <td>${s.date}</td>
+                    </tr>
+                `;
+            });
+
+            let whRowsHTML = '';
+            filteredWH.forEach(w => {
+                whRowsHTML += `
+                    <tr>
+                        <td>${w.branch}</td>
+                        <td>${w.item}</td>
+                        <td>${w.action}</td>
+                        <td>${w.qty} ${w.unit}</td>
+                        <td>${(w.totalVal || 0).toLocaleString()} ريال</td>
+                        <td>${(w.paidVal || 0).toLocaleString()} ريال</td>
+                        <td>${w.date}</td>
+                    </tr>
+                `;
+            });
+
+            container.innerHTML = `
+                <div class="report-section-card">
+                    <h3>📑 ملخص الأرقام الشاملة (${branch === 'all' ? 'جميع الفروع' : branch})</h3>
+                    <p>💰 إجمالي المبيعات والإيرادات: <strong style="color:green;">${totalSales.toLocaleString()} ريال</strong></p>
+                    <p>📦 إجمالي مشتريات المستودع (الوارد): <strong style="color:red;">${totalWHCost.toLocaleString()} ريال</strong> (المدفوع منها: ${totalPaidWH.toLocaleString()} ريال - المتبقي: ${(totalWHCost - totalPaidWH).toLocaleString()} ريال)</p>
+                    <p>👥 إجمالي الرواتب الأساسية: <strong>${totalSalaries.toLocaleString()} ريال</strong> (الخصومات المعتمدة: ${approvedDeductions.toLocaleString()} ريال)</p>
+                    <p style="font-size:16px;">📈 **الصافي المالي المبدئي (المبيعات - المشتريات):** <strong style="color:blue;">${(totalSales - totalWHCost).toLocaleString()} ريال</strong></p>
+                </div>
+
+                <div class="report-section-card">
+                    <h3>🍗 تفاصيل حركة المبيعات بالتفصيل الممل</h3>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>الفرع</th>
+                                    <th>القسم</th>
+                                    <th>الوردية</th>
+                                    <th>المسؤول</th>
+                                    <th>الطلبات</th>
+                                    <th>الإيراد</th>
+                                    <th>التاريخ</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${salesRowsHTML || '<tr><td colspan="7" style="text-align:center;">لا توجد بيانات مبيعات مسجلة لهذا التحديد</td></tr>'}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="report-section-card">
+                    <h3>📦 تفاصيل حركة المستودع والمشتريات بالتفصيل الممل</h3>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>الفرع</th>
+                                    <th>الصنف</th>
+                                    <th>نوع الحركة</th>
+                                    <th>الكمية والوحدة</th>
+                                    <th>إجمالي القيمة</th>
+                                    <th>المدفوع</th>
+                                    <th>التاريخ</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${whRowsHTML || '<tr><td colspan="7" style="text-align:center;">لا توجد حركة مستودع مسجلة لهذا التحديد</td></tr>'}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             `;
         }
 
-        function renderAuditLogs() {
+        function renderLogs() {
             const tbody = document.querySelector('#logsTable tbody');
-            if(!tbody) return;
             tbody.innerHTML = '';
-            auditLogs.forEach(log => {
-                let tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td><strong>${log.event}</strong></td>
-                    <td>${log.details}</td>
-                    <td><span class="badge badge-manager">${log.user}</span></td>
-                    <td style="font-size: 12px; opacity: 0.8;">${log.time}</td>
+            auditLogs.forEach(l => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td><strong>${l.action}</strong></td>
+                        <td>${l.details}</td>
+                        <td>${l.user}</td>
+                        <td>${l.time}</td>
+                    </tr>
                 `;
-                tbody.appendChild(tr);
             });
         }
 
+        /* 👑 إدارة الحسابات مع تحكم الصلاحيات المحدث */
         function renderUsersManagement() {
-            const container = document.getElementById('usersCardsContainer');
-            if(!container) return;
-            container.innerHTML = '';
+            const cardsContainer = document.getElementById('usersCardsContainer');
+            if(!cardsContainer) return;
+            cardsContainer.innerHTML = '';
 
-            let canManageRoles = (currentRole === 'boss' || currentRole === 'vice_boss');
-            let canDeleteUser = (currentRole === 'boss' || currentRole === 'vice_boss');
+            Object.keys(usersData).forEach(uName => {
+                const u = usersData[uName];
+                
+                let canEditThisRole = false;
+                if (currentRole === 'boss') {
+                    canEditThisRole = true; // الريس يملك صلاحية التعديل للكل
+                } else if (currentRole === 'vice_boss' && uName !== currentUser && u.role !== 'boss') {
+                    canEditThisRole = true; // النايب يعدل باقي المستخدمين عدا الريس
+                }
 
-            for(let username in usersData) {
-                let u = usersData[username];
-                let isProtected = (username === 'طارق');
+                // تحديد خيارات الرتب المتاحة في القائمة المنسدلة حسب الصلاحية
+                let roleOptionsHTML = '';
+                if (currentRole === 'boss') {
+                    // الريس فقط يظهر له خيار منح رتبة "ريس" و "نائب ريس" وكل الرتب
+                    roleOptionsHTML = `
+                        <option value="boss" ${u.role === 'boss' ? 'selected' : ''}>الريس (Boss)</option>
+                        <option value="vice_boss" ${u.role === 'vice_boss' ? 'selected' : ''}>نائب الريس</option>
+                        <option value="manager" ${u.role === 'manager' ? 'selected' : ''}>مدير النظام</option>
+                        <option value="watcher" ${u.role === 'watcher' ? 'selected' : ''}>مراقب</option>
+                    `;
+                } else if (currentRole === 'vice_boss') {
+                    // النايب يمنع تماماً من منح رتبة "ريس"
+                    roleOptionsHTML = `
+                        <option value="vice_boss" ${u.role === 'vice_boss' ? 'selected' : ''}>نائب الريس</option>
+                        <option value="manager" ${u.role === 'manager' ? 'selected' : ''}>مدير النظام</option>
+                        <option value="watcher" ${u.role === 'watcher' ? 'selected' : ''}>مراقب</option>
+                    `;
+                }
 
-                let card = document.createElement('div');
-                card.className = 'user-management-card';
-                card.innerHTML = `
-                    <div>
-                        <strong>👤 ${username}</strong>
-                        <div style="margin-top: 5px;">الصلاحية: <span class="badge ${getRoleBadgeClass(u.role)}">${getRoleDisplayName(u.role)}</span></div>
-                    </div>
-                    <div style="display: flex; gap: 8px; align-items: center;">
-                        <select id="role_select_${username}" style="padding: 5px 8px; font-size: 13px; width: auto;" ${!canManageRoles || isProtected ? 'disabled' : ''}>
-                            <option value="boss" ${u.role==='boss'?'selected':''}>الريس (Boss)</option>
-                            <option value="vice_boss" ${u.role==='vice_boss'?'selected':''}>نائب الريس</option>
-                            <option value="manager" ${u.role==='manager'?'selected':''}>مدير النظام</option>
-                            <option value="watcher" ${u.role==='watcher'?'selected':''}>مراقب</option>
-                        </select>
-                        ${canManageRoles && !isProtected ? `<button class="btn btn-sm-action" onclick="updateUserRole('${username}')">تعديل</button>` : ''}
-                        ${canDeleteUser && !isProtected ? `<button class="btn btn-danger btn-sm-action" onclick="deleteUserAccount('${username}')">حذف</button>` : ''}
+                cardsContainer.innerHTML += `
+                    <div class="user-management-card">
+                        <div>
+                            <strong>${uName}</strong> 
+                            <span class="badge badge-${u.role}">${getRoleNameInArabic(u.role)}</span>
+                        </div>
+                        <div style="display: flex; gap: 8px;">
+                            ${canEditThisRole ? `
+                                <select onchange="changeUserRole('${uName}', this.value)" style="width: auto; padding: 2px 6px;">
+                                    ${roleOptionsHTML}
+                                </select>
+                                ${uName !== 'طارق' && uName !== currentUser ? `<button class="btn btn-danger" onclick="deleteUserAccount('${uName}')">حذف</button>` : ''}
+                            ` : `<span style="font-size:11px; opacity:0.6;">(محمي من التعديل)</span>`}
+                        </div>
                     </div>
                 `;
-                container.appendChild(card);
-            }
+            });
+
+            renderBossPanel();
         }
 
-        function updateUserRole(username) {
-            if(username === 'طارق') { alert("⚠️ حساب الريس محمي."); return; }
-            let newRole = document.getElementById(`role_select_${username}`).value;
-            usersData[username].role = newRole;
-            saveData();
-            renderUsersManagement();
-            logAction("تعديل صلاحية", `تعديل صلاحية المستخدم ${username}`);
-            alert("✅ تم التحديث.");
-        }
-
-        function deleteUserAccount(username) {
-            if(username === 'طارق') {
-                alert("❌ لا يمكن حذف حساب الريس الأساسي نهائياً!");
+        function changeUserRole(userName, newRole) {
+            // حماية برمجية إضافية: منع نائب الريس من منح رتبة ريس
+            if (currentRole === 'vice_boss' && newRole === 'boss') {
+                alert('⛔ نائب الريس لا يملك صلاحية إعطاء رتبة ريس!');
+                renderUsersManagement();
                 return;
             }
-            if(confirm(`هل أنت متأكد من حذف حساب (${username}) نهائياً؟ لن يتمكن من الدخول للنظام بعد الآن.`)) {
-                delete usersData[username];
+
+            if(usersData[userName]) {
+                usersData[userName].role = newRole;
+                addLog('تعديل صلاحية', `تعديل صلاحية ${userName} إلى ${getRoleNameInArabic(newRole)}`);
                 saveData();
                 renderUsersManagement();
-                populateLoginUsersDropdown();
-                populateForgotUsersDropdown();
-                logAction("حذف حساب", `تم حذف الحساب نهائياً: ${username}`);
-                alert("✅ تم حذف الحساب بنجاح وإزالته من شاشة الدخول ومزامنته.");
             }
+        }
+
+        function deleteUserAccount(userName) {
+            if(userName === 'طارق' || userName === currentUser) return;
+            delete usersData[userName];
+            addLog('حذف حساب', `حذف ${userName}`);
+            saveData();
+            populateUsersDropdowns();
+            renderUsersManagement();
         }
 
         function renderBossPanel() {
-            if(currentRole !== 'boss' && currentRole !== 'vice_boss') return;
-
             const newAccTbody = document.querySelector('#bossNewAccRequestsTable tbody');
-            if(newAccTbody) {
-                newAccTbody.innerHTML = '';
-                if(currentRole === 'boss') {
-                    if(newAccountRequests.length === 0) {
-                        newAccTbody.innerHTML = `<tr><td colspan="3" style="text-align:center; opacity:0.7;">لا توجد طلبات حسابات جديدة معلقة.</td></tr>`;
-                    } else {
-                        newAccountRequests.forEach((req, idx) => {
-                            let tr = document.createElement('tr');
-                            tr.innerHTML = `
-                                <td>${req.name} <span style="font-size:12px; opacity:0.6;">(${req.time})</span></td>
-                                <td><span class="badge ${getRoleBadgeClass(req.role)}">${getRoleDisplayName(req.role)}</span></td>
+            const resetTbody = document.querySelector('#bossRequestsTable tbody');
+            const deductTbody = document.querySelector('#bossDeductionsRequestsTable tbody');
+
+            if (deductTbody) {
+                deductTbody.innerHTML = '';
+                const pendingDeductions = deductions.filter(d => d.status === 'pending');
+                if (pendingDeductions.length === 0) {
+                    deductTbody.innerHTML = `<tr><td colspan="4" style="text-align:center; opacity:0.6;">لا توجد طلبات معلقة.</td></tr>`;
+                } else {
+                    pendingDeductions.forEach(d => {
+                        deductTbody.innerHTML += `
+                            <tr>
+                                <td><strong>${d.empName}</strong></td>
+                                <td style="color:red;">${d.amount} ريال</td>
+                                <td>${d.reason} (${d.date})</td>
                                 <td>
-                                    <button class="btn" style="padding: 4px 8px; font-size: 12px; background: #059669;" onclick="approveNewAccount(${idx})">موافقة</button>
-                                    <button class="btn btn-danger" style="padding: 4px 8px; font-size: 12px;" onclick="rejectNewAccount(${idx})">رفض</button>
+                                    <button class="btn" style="background:#059669;" onclick="approveDeductionRequest(${d.id})">موافقة</button>
+                                    <button class="btn btn-danger" onclick="rejectDeductionRequest(${d.id})">رفض</button>
                                 </td>
-                            `;
-                            newAccTbody.appendChild(tr);
-                        });
-                    }
+                            </tr>
+                        `;
+                    });
                 }
             }
 
-            const resetTbody = document.querySelector('#bossRequestsTable tbody');
+            if(newAccTbody) {
+                newAccTbody.innerHTML = '';
+                if (newAccountRequests.length === 0) {
+                    newAccTbody.innerHTML = `<tr><td colspan="3" style="text-align:center; opacity:0.6;">لا توجد طلبات جديدة.</td></tr>`;
+                } else {
+                    newAccountRequests.forEach((req, idx) => {
+                        newAccTbody.innerHTML += `
+                            <tr>
+                                <td>${req.name}</td>
+                                <td>${getRoleNameInArabic(req.role)}</td>
+                                <td>
+                                    <button class="btn" style="background:#059669;" onclick="approveNewAccRequest(${idx})">قبول</button>
+                                    <button class="btn btn-danger" onclick="rejectNewAccRequest(${idx})">رفض</button>
+                                </td>
+                            </tr>
+                        `;
+                    });
+                }
+            }
+
             if(resetTbody) {
                 resetTbody.innerHTML = '';
-                if(passwordResetRequests.length === 0) {
-                    resetTbody.innerHTML = `<tr><td colspan="3" style="text-align:center; opacity:0.7;">لا توجد طلبات استعادة معلقة.</td></tr>`;
+                if (passwordResetRequests.length === 0) {
+                    resetTbody.innerHTML = `<tr><td colspan="3" style="text-align:center; opacity:0.6;">لا توجد طلبات.</td></tr>`;
                 } else {
                     passwordResetRequests.forEach((req, idx) => {
-                        let tr = document.createElement('tr');
-                        tr.innerHTML = `
-                            <td>${req.name}</td>
-                            <td>${req.time}</td>
-                            <td>
-                                <button class="btn" style="padding: 4px 8px; font-size: 12px; background: #059669;" onclick="approveReset(${idx})">الموافقة والسماح بالتعيين</button>
-                                <button class="btn btn-danger" style="padding: 4px 8px; font-size: 12px;" onclick="rejectReset(${idx})">رفض</button>
-                            </td>
+                        resetTbody.innerHTML += `
+                            <tr>
+                                <td>${req.name}</td>
+                                <td>${req.time}</td>
+                                <td>
+                                    <button class="btn" style="background:#059669;" onclick="approveResetRequest(${idx})">سماح بتغيير كلمة السر</button>
+                                    <button class="btn btn-danger" onclick="rejectResetRequest(${idx})">رفض الطلب</button>
+                                </td>
+                            </tr>
                         `;
-                        resetTbody.appendChild(tr);
                     });
                 }
             }
         }
 
-        function approveNewAccount(index) {
-            if(currentRole !== 'boss') { alert("❌ للريس فقط."); return; }
-            let req = newAccountRequests[index];
+        function approveDeductionRequest(deductId) {
+            const target = deductions.find(d => d.id === deductId);
+            if (target) {
+                target.status = 'approved';
+                addLog('اعتماد خصم', `موافقة خصم ${target.amount} ريال للموظف ${target.empName}`);
+                saveData();
+                renderDeductions();
+                renderMonthlyPayroll();
+                renderBossPanel();
+            }
+        }
+
+        function rejectDeductionRequest(deductId) {
+            deductions = deductions.filter(d => d.id !== deductId);
+            saveData();
+            renderDeductions();
+            renderBossPanel();
+        }
+
+        function approveNewAccRequest(index) {
+            const req = newAccountRequests[index];
             usersData[req.name] = { pass: req.pass, role: req.role, resetApproved: false };
             newAccountRequests.splice(index, 1);
             saveData();
-            renderBossPanel();
-            populateLoginUsersDropdown();
-            populateForgotUsersDropdown();
-            alert(`✅ تم تفعيل حساب ${req.name} بنجاح.`);
+            populateUsersDropdowns();
+            renderUsersManagement();
         }
 
-        function rejectNewAccount(index) {
-            if(currentRole !== 'boss') { alert("❌ للريس فقط."); return; }
+        function rejectNewAccRequest(index) {
             newAccountRequests.splice(index, 1);
             saveData();
             renderBossPanel();
-            alert("❌ تم رفض الطلب.");
         }
 
-        function approveReset(index) {
-            if(currentRole !== 'boss' && currentRole !== 'vice_boss') { alert("❌ غير مسموح."); return; }
-            let req = passwordResetRequests[index];
+        function approveResetRequest(index) {
+            const req = passwordResetRequests[index];
             if(usersData[req.name]) {
                 usersData[req.name].resetApproved = true;
             }
             passwordResetRequests.splice(index, 1);
             saveData();
             renderBossPanel();
-            alert(`✅ تمت الموافقة على طلب (${req.name}). سيتمكن من تعيين كلمة مرور جديدة مباشرة عند اختيار حسابه.`);
         }
 
-        function rejectReset(index) {
-            if(currentRole !== 'boss' && currentRole !== 'vice_boss') { alert("❌ غير مسموح."); return; }
+        function rejectResetRequest(index) {
             passwordResetRequests.splice(index, 1);
+            addLog('رفض استعادة كلمة مرور', 'تم رفض الطلب بواسطة القيادة');
             saveData();
             renderBossPanel();
-            alert("❌ تم رفض الطلب.");
         }
 
-        function toggleTheme() {
-            let body = document.body;
-            body.setAttribute('data-theme', body.getAttribute('data-theme') === 'light' ? 'dark' : 'light');
-        }
-
-        function renderAllData() {
+        function renderAllSections() {
             renderEmployees();
             renderMonthlyPayroll();
             renderDeductions();
             renderSales();
             renderWarehouse();
-            renderChart();
+            renderLogs();
+            renderUsersManagement();
+            populateShiftResponsibleOptions();
+            updateHeaderUserInfo();
         }
+
+        function toggleTheme() {
+            const currentTheme = document.body.getAttribute('data-theme');
+            document.body.setAttribute('data-theme', currentTheme === 'dark' ? 'light' : 'dark');
+        }
+
+        function downloadBackupJSON() {
+            const state = { usersData, employees, deductions, sales, warehouse, warehouseLimits, passwordResetRequests, newAccountRequests, auditLogs };
+            let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(state, null, 2));
+            let anchor = document.createElement('a');
+            anchor.setAttribute("href", dataStr);
+            anchor.setAttribute("download", `Zouq_Backup.json`);
+            document.body.appendChild(anchor);
+            anchor.click();
+            anchor.remove();
+        }
+
+        function updateStatusBox() {
+            let box = document.getElementById('lastAutoBackupTimeBox');
+            if(box) box.textContent = `🕒 تم حفظ المزامنة السحابية والمحلية: ${new Date().toLocaleTimeString('ar-SA')}`;
+        }
+
+        window.onload = initSystem;
     </script>
 </body>
 </html>
